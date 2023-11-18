@@ -5,24 +5,25 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
 } from "firebase/firestore/lite";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiKey, db } from "../../firebase/firebaseConfig";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { useAppSelector } from "../../hooks/dispatchHook";
+import useGetPost from "../../hooks/getPostHook";
 
 const PostContent = () => {
-  const { docId } = useParams();
   const navigate = useNavigate();
+
+  const { docId } = useParams();
+  const { getPost } = useGetPost(docId);
+  const { data } = useQuery(["getPost", docId], getPost);
 
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const isSession = sessionStorage.getItem(sessionKey);
 
-  const query = useQuery(["getPost", docId], getPost);
   const queryClient = useQueryClient();
-
   const theme = useAppSelector((state) => state.theme);
 
   const deleteMutation = useMutation(
@@ -31,28 +32,16 @@ const PostContent = () => {
     },
     {
       onSuccess: () => {
-        alert("게시물이 성공적으로 삭제되었습니다.");
         queryClient.invalidateQueries("getAllPost");
         navigate(`/`);
+        alert("게시물이 성공적으로 삭제되었습니다.");
+      },
+      onError: (error) => {
+        console.error("게시물 삭제 중 오류 발생:", error);
+        navigate(`/error`);
       },
     }
   );
-
-  async function getPost() {
-    try {
-      const docRef = collection(db, "Posts");
-      const documentRef = doc(docRef, docId);
-      const documentSnapshot = await getDoc(documentRef);
-      if (documentSnapshot.exists()) {
-        const documentData = documentSnapshot.data();
-        return documentData;
-      } else {
-        console.log("문서가 존재하지 않습니다.");
-      }
-    } catch (error) {
-      console.error("문서를 가져오는 도중 오류 발생:", error);
-    }
-  }
 
   const handleUpdatePost = () => {
     navigate(`/rewrite/${docId}`);
@@ -61,7 +50,7 @@ const PostContent = () => {
   const isPostedUser = () => {
     if (typeof isSession === "string") {
       const uid = JSON.parse(isSession).uid;
-      if (uid === query.data?.uid) {
+      if (uid === data?.uid) {
         return true;
       } else {
         return false;
@@ -75,6 +64,11 @@ const PostContent = () => {
     deleteMutation.mutate(documentRef);
   };
 
+  if (typeof data === "undefined") {
+    //존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들 예정
+    return <div>존재하지 않는 게시물 입니다.</div>;
+  }
+
   return (
     <Wrapper>
       {isPostedUser() && (
@@ -83,10 +77,10 @@ const PostContent = () => {
           <button onClick={handleRemovePost}>삭제</button>
         </div>
       )}
-      {query.data && (
+      {data && (
         <div data-color-mode={theme.dark ? "darkT" : "light"}>
           <MDEditor.Markdown
-            source={query.data.content}
+            source={data.content}
             style={{
               whiteSpace: "pre-wrap",
               transition: "all 0.3s",

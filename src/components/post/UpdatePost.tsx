@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore/lite";
+import { collection, doc, updateDoc } from "firebase/firestore/lite";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -6,12 +6,15 @@ import { db } from "../../firebase/firebaseConfig";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import { useState } from "react";
+import useGetPost from "../../hooks/getPostHook";
 
 const UpdatePost = () => {
   const { docId } = useParams();
-  const query = useQuery(["getPost", docId], getPost);
 
-  const [md, setMd] = useState(query.data?.content);
+  const { getPost } = useGetPost(docId);
+  const { data } = useQuery(["getPost", docId], getPost);
+
+  const [md, setMd] = useState(data?.content);
   const [title, setTitle] = useState("");
 
   const theme = useAppSelector((state) => state.theme);
@@ -28,24 +31,12 @@ const UpdatePost = () => {
         alert("게시물이 성공적으로 수정되었습니다.");
         navigate(`/post/${docId}`);
       },
+      onError: (error) => {
+        console.error("게시물 수정 중 오류 발생:", error);
+        navigate(`/error`);
+      },
     }
   );
-
-  async function getPost() {
-    try {
-      const docRef = collection(db, "Posts");
-      const documentRef = doc(docRef, docId);
-      const documentSnapshot = await getDoc(documentRef);
-      if (documentSnapshot.exists()) {
-        const documentData = documentSnapshot.data();
-        return documentData;
-      } else {
-        console.log("문서가 존재하지 않습니다.");
-      }
-    } catch (error) {
-      console.error("문서를 가져오는 도중 오류 발생:", error);
-    }
-  }
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -57,6 +48,11 @@ const UpdatePost = () => {
       content: md,
     });
   };
+
+  if (typeof data === "undefined") {
+    //존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들 예정
+    return <div>존재하지 않는 게시물 입니다.</div>;
+  }
 
   return (
     <Container>
