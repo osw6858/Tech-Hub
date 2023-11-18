@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   auth,
   signInWithEmailAndPassword,
 } from "../../firebase/firebaseConfig";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { browserSessionPersistence, setPersistence } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 
 interface ModalState {
   setLoginModal: (isOpen: boolean) => void;
@@ -14,6 +15,10 @@ interface ModalState {
 const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleCloseModal = () => {
     setLoginModal(false);
@@ -30,38 +35,48 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginResult = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = loginResult.user;
-      console.log(user);
+      await signInWithEmailAndPassword(auth, email, password);
       setPersistence(auth, browserSessionPersistence).then(() => {
         console.log("로그인 성공");
         setLoginModal(false);
         setIsLogin(true);
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof FirebaseError) {
+        const errorCode = error.code;
+
+        switch (errorCode) {
+          case "auth/user-not-found":
+            setErrorMsg("일치하는 이메일이 없습니다.");
+            emailRef.current?.focus();
+            break;
+          case "auth/wrong-password":
+            setErrorMsg("비밀번호가 일치하지 않습니다.");
+            passwordRef.current?.focus();
+            break;
+        }
+      }
     }
   };
 
   return (
-    <Container>
-      <ContentWrapper>
-        <p>환영합니다!</p>
+    <Container onClick={handleCloseModal}>
+      <ContentWrapper onClick={(e) => e.stopPropagation()}>
+        <p>Login</p>
+        {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
         <LoginForm onSubmit={handleLogin}>
           <InputGroup>
-            <Label>아이디</Label>
-            <IdInput
+            <EmailInput
+              ref={emailRef}
+              id="email"
               value={email}
               onChange={handleEmail}
               placeholder="이메일 입력"
               type="email"
             />
-            <Label>비밀번호</Label>
             <PasswordInput
+              ref={passwordRef}
+              id="password"
               value={password}
               onChange={handlePassword}
               placeholder="비밀번호 입력 "
@@ -70,7 +85,6 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
           </InputGroup>
           <ButtonGroup>
             <LoginButton type="submit">로그인</LoginButton>
-            <CancleButton onClick={handleCloseModal}>취소</CancleButton>
           </ButtonGroup>
         </LoginForm>
       </ContentWrapper>
@@ -119,8 +133,8 @@ const ContentWrapper = styled.div`
 `;
 
 const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  width: 100%;
 `;
 
 const InputGroup = styled.div`
@@ -129,22 +143,29 @@ const InputGroup = styled.div`
   place-items: center;
 `;
 
-const Label = styled.label`
-  font-size: 2rem;
+const InputCSS = css`
+  background-color: ${({ theme }) => theme.body};
+  min-height: 3rem;
+  padding-left: 1.5rem;
+  outline: none;
+  border: none;
+  border-bottom: ${({ theme }) => theme.border};
+  margin: 1rem 0 1rem 0;
+  color: ${({ theme }) => theme.text};
+  transition: all 0.2s;
+  width: 92%;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.input};
+  }
 `;
 
-const IdInput = styled.input`
-  min-height: 3rem;
-  border-radius: 1rem;
-  outline: none;
-  padding-left: 1.5rem;
+const EmailInput = styled.input`
+  ${InputCSS}
 `;
 
 const PasswordInput = styled.input`
-  min-height: 3rem;
-  border-radius: 1rem;
-  outline: none;
-  padding-left: 1.5rem;
+  ${InputCSS}
 `;
 
 const ButtonGroup = styled.div`
@@ -157,20 +178,22 @@ const ButtonGroup = styled.div`
 const LoginButton = styled.button`
   background-color: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.buttonText};
-  border-radius: 2rem;
+  border-radius: 1.3rem;
   border: 1xp solid gray;
   font-weight: 600;
   outline: none;
-  margin-right: 2rem;
   padding: 1.2rem;
+  width: 100%;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.buttonHover};
+  }
 `;
 
-const CancleButton = styled.button`
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 2rem;
-  border: 1xp solid gray;
-  font-weight: 600;
-  outline: none;
-  padding: 1.2rem;
+const ErrorMsg = styled.span`
+  color: red;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
 `;

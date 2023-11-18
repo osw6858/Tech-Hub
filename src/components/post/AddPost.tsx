@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/dispatchHook";
@@ -73,13 +73,17 @@ const AddPost = () => {
       ></TitleInput>
       {mutation.isError ? <ErrorText>에러가 발생했습니다.</ErrorText> : null}
       <Wrapper>
-        <div data-color-mode={theme.dark ? "darkT" : "light"}>
+        <div
+          className="Editor"
+          data-color-mode={theme.dark ? "darkT" : "light"}
+        >
           <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
           {/* <MDEditor.Markdown source={value} style={{ whiteSpace: "pre-wrap" }} /> */}
         </div>
       </Wrapper>
       <ButtonWrapper>
         <SaveButton onClick={handleSave}>저장</SaveButton>
+        <ReturnButton onClick={() => navigate("/")}>돌아가기</ReturnButton>
       </ButtonWrapper>
     </Container>
   );
@@ -90,6 +94,12 @@ export default AddPost;
 const Container = styled.div`
   display: grid;
   margin-top: 5rem;
+  min-width: 25rem;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.8rem;
+    margin-top: 2rem;
+  }
 `;
 
 const TitleInput = styled.input`
@@ -100,6 +110,11 @@ const TitleInput = styled.input`
   font-size: 4rem;
   color: ${({ theme }) => theme.text};
   padding-left: 1rem;
+  width: 100%;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.8rem;
+  }
 `;
 
 const Wrapper = styled.div``;
@@ -108,9 +123,30 @@ const ButtonWrapper = styled.div`
   display: flex;
 `;
 
-const SaveButton = styled.button`
+const ButtonCSS = css`
   background-color: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.buttonText};
+  border-radius: 1.3rem;
+  border: 1xp solid gray;
+  font-weight: 600;
+  outline: none;
+  padding: 1.2rem;
+  min-width: 8rem;
+  margin: 1.5rem 1rem 0 0;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.buttonHover};
+  }
+`;
+
+const SaveButton = styled.button`
+  ${ButtonCSS}
+`;
+
+const ReturnButton = styled.button`
+  ${ButtonCSS}
 `;
 
 const ErrorText = styled.div`

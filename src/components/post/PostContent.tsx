@@ -72,21 +72,24 @@ const PostContent = () => {
   return (
     <Wrapper>
       {isPostedUser() && (
-        <div>
-          <button onClick={handleUpdatePost}>수정</button>{" "}
-          <button onClick={handleRemovePost}>삭제</button>
-        </div>
+        <UpdateDelete>
+          <UpdateText onClick={handleUpdatePost}>수정</UpdateText>{" "}
+          <DeleteText onClick={handleRemovePost}>삭제</DeleteText>
+        </UpdateDelete>
       )}
       {data && (
-        <div data-color-mode={theme.dark ? "darkT" : "light"}>
-          <MDEditor.Markdown
-            source={data.content}
-            style={{
-              whiteSpace: "pre-wrap",
-              transition: "all 0.3s",
-            }}
-          />
-        </div>
+        <>
+          <PostTitle>{data.title}</PostTitle>
+          <div data-color-mode={theme.dark ? "darkT" : "light"}>
+            <MDEditor.Markdown
+              source={data.content}
+              style={{
+                whiteSpace: "pre-wrap",
+                transition: "all 0.3s",
+              }}
+            />
+          </div>
+        </>
       )}
     </Wrapper>
   );
@@ -111,4 +114,35 @@ const Wrapper = styled.div`
   @media ${(props) => props.theme.mobile} {
     width: 95%;
   }
+`;
+
+const PostTitle = styled.h2`
+  font-size: 5rem;
+  font-weight: 700;
+  margin: 2rem 0 3rem 0;
+`;
+
+const UpdateDelete = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const UpdateText = styled.span`
+  cursor: pointer;
+  font-size: 1.5rem;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    height: 1.2rem;
+    border: 1px solid ${({ theme }) => theme.text};
+    margin: 0 1.3rem 0 1.3rem;
+    transform: rotate(15deg);
+  }
+`;
+
+const DeleteText = styled.span`
+  cursor: pointer;
+  font-size: 1.5rem;
 `;

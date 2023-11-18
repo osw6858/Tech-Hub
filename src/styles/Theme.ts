@@ -7,10 +7,11 @@ const size = {
 
 export const darkTheme = {
   header: "rgb(25, 29, 36)",
-  input: "#4e5369",
+  input: "#141517",
   body: "rgb(13, 17, 23)",
   text: "white",
   button: "white",
+  buttonHover: "#e0dcdc",
   buttonText: "black",
   card: "#333",
   border: "1px solid rgb(166, 173, 187)",
@@ -24,12 +25,13 @@ export const darkTheme = {
 
 export const whiteTheme = {
   header: "white",
-  input: "#dcdee6",
+  input: "#f5f7f7",
   body: "white",
   text: "black",
   button: "#141313",
+  buttonHover: "#3d3838",
   buttonText: "white",
-  card: "white",
+  card: "#FAFAFA",
   border: "1px solid black",
   cardFontColor: "black",
   cardBorder: "1px solid rgb(229, 231, 235)",

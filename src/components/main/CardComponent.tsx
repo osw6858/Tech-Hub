@@ -49,11 +49,8 @@ const CardComponent = ({
         <PostInfo>
           <Title>{title}</Title>
           <Contents> {contents}</Contents>
-          {/* <DisplayName>{name}</DisplayName> */}
-          <CreatedAt>
-            {dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}
-          </CreatedAt>
         </PostInfo>
+        <CreatedAt>{dayjs(createdAt).format("YYYY-MM-DD")}</CreatedAt>
       </Card>
     </StyledLink>
   );
@@ -64,7 +61,7 @@ export default CardComponent;
 const Card = styled.div`
   background-color: ${({ theme }) => theme.card};
   border: ${({ theme }) => theme.cardBorder};
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 0.4rem;
   margin-top: 2rem;
   height: 40rem;
   max-height: 40rem;
@@ -84,19 +81,19 @@ const Card = styled.div`
 const Sumnail = styled.img`
   width: 100%;
   height: 18rem;
+  border-radius: 0.4rem;
 `;
 
 const Title = styled.h3`
-  font-size: 2.5rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 15rem;
-  max-height: 100%;
+  height: 16rem;
   padding: 2rem;
 `;
 
@@ -106,7 +103,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Contents = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.cardFontColor};
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -115,11 +113,8 @@ const Contents = styled.div`
   text-overflow: ellipsis;
 `;
 
-// const DisplayName = styled.span`
-//   font-size: 1rem;
-// `;
-
 const CreatedAt = styled.div`
   font-size: 1.2rem;
-  font-weight: 600;
+  color: ${({ theme }) => theme.cardFontColor};
+  padding: 0 2rem 0 2rem;
 `;

@@ -3,12 +3,8 @@ import GlobalStyle from "./styles/GlobalStyle";
 import { useAppSelector } from "./hooks/dispatchHook";
 import { darkTheme, whiteTheme } from "./styles/Theme";
 import HeaderComponent from "./components/common/HeaderComponent";
-import { Route, Routes } from "react-router-dom";
-import IndexComponent from "./components/main/IndexComponent";
-import AddPost from "./components/post/AddPost";
 import FooterComponent from "./components/common/FooterComponenet";
-import PostContent from "./components/post/PostContent";
-import UpdatePost from "./components/post/UpdatePost";
+import RoutesComponent from "./routes/routes";
 
 function App() {
   const theme = useAppSelector((state) => state.theme);
@@ -18,14 +14,8 @@ function App() {
       <Wrapper>
         <Container>
           <HeaderComponent />
-
           <Main>
-            <Routes>
-              <Route path="/" element={<IndexComponent />} />
-              <Route path="/add" element={<AddPost />} />
-              <Route path="/post/:docId" element={<PostContent />} />
-              <Route path="/rewrite/:docId" element={<UpdatePost />} />
-            </Routes>
+            <RoutesComponent />
           </Main>
         </Container>
         <FooterComponent />

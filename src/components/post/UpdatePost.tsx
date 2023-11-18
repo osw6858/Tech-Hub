@@ -100,4 +100,17 @@ const ButtonWrapper = styled.div`
 const SaveButton = styled.button`
   background-color: ${({ theme }) => theme.button};
   color: ${({ theme }) => theme.buttonText};
+  border-radius: 1.3rem;
+  border: 1xp solid gray;
+  font-weight: 600;
+  outline: none;
+  padding: 1.2rem;
+  min-width: 8rem;
+  margin: 1.5rem 1rem 0 0;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.buttonHover};
+  }
 `;
