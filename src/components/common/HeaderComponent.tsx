@@ -73,6 +73,7 @@ const HeaderComponent = () => {
           fill="currentColor"
           className="bi bi-search"
           viewBox="0 0 16 16"
+          onClick={() => navigate("/search")}
         >
           <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </StyledSvg>
@@ -154,7 +155,7 @@ const Logo = styled.h1`
   flex-grow: 1;
 
   @media ${(props) => props.theme.mobile} {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -164,8 +165,8 @@ const MenuItems = styled.div`
 `;
 
 const SvgStyle = css`
-  min-width: 2.6rem;
-  min-height: 2.6rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   transition: all 0.3s;
   fill: currentColor;
   display: blocks;
@@ -175,8 +176,8 @@ const SvgStyle = css`
 
   @media ${(props) => props.theme.mobile} {
     margin: 0 0.8rem 0 0.8rem;
-    min-width: 2.7rem;
-    min-height: 2.7rem;
+    min-width: 2.6rem;
+    min-height: 2.6rem;
   }
 `;
 
