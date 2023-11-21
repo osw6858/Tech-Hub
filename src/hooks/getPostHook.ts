@@ -17,7 +17,8 @@ const useGetPost = (docId: string | undefined) => {
     } catch (error) {
       console.error("문서를 가져오는 도중 오류 발생:", error);
     }
-  }, [docId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { getPost };
 };

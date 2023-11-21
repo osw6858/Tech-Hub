@@ -3,15 +3,12 @@ import MDEditor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import { addDoc, collection } from "firebase/firestore/lite";
-import { apiKey, auth, db } from "../../firebase/firebaseConfig";
+import { auth, db } from "../../firebase/firebaseConfig";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 const AddPost = () => {
-  const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
-  const isSession = sessionStorage.getItem(sessionKey) ? true : false;
-
   const navigate = useNavigate();
   const [md, setMd] = useState("");
   const [title, setTitle] = useState("");
@@ -20,12 +17,12 @@ const AddPost = () => {
   const now = dayjs();
 
   useEffect(() => {
-    if (!isSession) {
+    if (!auth.currentUser) {
       alert("로그인이 필요합니다.");
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSession]);
+  }, [auth.currentUser]);
 
   const mutation = useMutation(
     (newMd: {

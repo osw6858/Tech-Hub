@@ -1,24 +1,36 @@
 import { collection, doc, updateDoc } from "firebase/firestore/lite";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { db } from "../../firebase/firebaseConfig";
+import { auth, db } from "../../firebase/firebaseConfig";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useGetPost from "../../hooks/getPostHook";
 
 const UpdatePost = () => {
   const { docId } = useParams();
 
   const { getPost } = useGetPost(docId);
-  const { data } = useQuery(["getPost", docId], getPost);
+  const { data } = useQuery(["getPost", docId], getPost, {
+    staleTime: 3 * 60000,
+  });
 
   const [md, setMd] = useState(data?.content);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(data?.title);
 
   const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!auth.currentUser) {
+      alert("로그인이 필요합니다.");
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser]);
 
   const UpdateMutation = useMutation(
     (updateMd: { title: string; content: string }) => {
@@ -28,6 +40,8 @@ const UpdatePost = () => {
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
+        queryClient.invalidateQueries({ queryKey: ["getPost", docId] });
         alert("게시물이 성공적으로 수정되었습니다.");
         navigate(`/post/${docId}`);
       },

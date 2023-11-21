@@ -1,25 +1,13 @@
 import styled from "styled-components";
-// import visa from "../assets/visa.svg";
-// import express from "../assets/express.svg";
-// import dinerClub from "../assets/dinerClub.svg";
-// import paypal from "../assets/paypal.svg";
-// import master from "../assets/master.svg";
-// import discover from "../assets/discover.svg";
+
 import { Link } from "react-router-dom";
 
 const FooterComponent: React.FC = () => {
   return (
     <Footer>
       <Wrapper>
-        <p>Woong</p>
-        {/* <CardContainer>
-          <img src={visa} alt="VisacardIcon" />
-          <img src={master} alt="VisacardIcon" />
-          <img src={paypal} alt="VisacardIcon" />
-          <img src={dinerClub} alt="VisacardIcon" />
-          <img src={express} alt="VisacardIcon" />
-          <img src={discover} alt="VisacardIcon" />
-        </CardContainer> */}
+        <p>Tech Hub 0.4</p>
+
         <SnsContainer>
           <StyledLink
             to="https://www.facebook.com/?locale=ko_KR"
@@ -97,11 +85,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// const CardContainer = styled.div`
-//   & > img {
-//     margin: 0 0.3rem 0 0.3rem;
-//   }
-// `;
 const SnsContainer = styled.div`
   & > a > svg {
     fill: ${({ theme }) => theme.cardFontColor};

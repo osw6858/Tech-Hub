@@ -11,13 +11,14 @@ import {
 } from "firebase/firestore/lite";
 import { db } from "../../firebase/firebaseConfig";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Skeleton } from "antd";
 
 const IndexComponent = () => {
   const getPosts = async ({ pageParam = null }) => {
     let dbQuery = query(
       collection(db, "Posts"),
       orderBy("createdAt", "desc"),
-      limit(5)
+      limit(10)
     );
 
     if (pageParam) {
@@ -28,6 +29,7 @@ const IndexComponent = () => {
         limit(5)
       );
     }
+
     const querySnapshot = await getDocs(dbQuery);
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
     const posts = querySnapshot.docs.map((doc) => {
@@ -38,10 +40,11 @@ const IndexComponent = () => {
     return { posts, lastVisible };
   };
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, status } = useInfiniteQuery(
     ["getAllPosts"],
     getPosts,
     {
+      staleTime: 3 * 6000,
       getNextPageParam: (lastPage) => {
         return lastPage.lastVisible; //이 반환값이 getPosts함수의 매개변수로 전달됨
       },
@@ -49,33 +52,43 @@ const IndexComponent = () => {
   );
 
   return (
-    <Container>
-      <InfiniteScroll
-        style={{ overflow: "none" }}
-        dataLength={data?.pages.length ? data?.pages.length : 0}
-        next={fetchNextPage}
-        hasMore={!!hasNextPage}
-        loader={<Loading>Loading...</Loading>}
-        endMessage={
-          <EndMsg>
-            <b>모든 포스팅을 보았습니다.</b>
-          </EndMsg>
-        }
-      >
-        {data?.pages.map((page) => {
-          return page.posts.map((post) => (
-            <CardComponent
-              key={post.docID}
-              content={post.postData.content}
-              // name={post.postData.displayName}
-              title={post.postData.title}
-              docId={post.docID}
-              createdAt={post.postData.createdAt}
-            />
-          ));
-        })}
-      </InfiniteScroll>
-    </Container>
+    <>
+      {status === "loading" ? (
+        <Wrapper>
+          <div>
+            <Skeleton active />
+            <Skeleton active />
+            <Skeleton active />
+            <Skeleton active />
+          </div>
+        </Wrapper>
+      ) : (
+        <Container>
+          <InfiniteScroll
+            style={{ overflow: "none" }}
+            dataLength={data?.pages.length ? data?.pages.length : 0}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            loader={<Loading>Loading...</Loading>}
+          >
+            {data?.pages.map((page) => {
+              return page.posts.map((post) => {
+                return (
+                  <CardComponent
+                    key={post.docID}
+                    content={post.postData.content}
+                    name={post.postData.displayName}
+                    title={post.postData.title}
+                    docId={post.docID}
+                    createdAt={post.postData.createdAt}
+                  />
+                );
+              });
+            })}
+          </InfiniteScroll>
+        </Container>
+      )}
+    </>
   );
 };
 
@@ -102,16 +115,22 @@ const Container = styled.div`
   }
 `;
 
-const EndMsg = styled.p`
-  font-size: 1.6rem;
-  color: ${({ theme }) => theme.text};
-  margin-top: 3rem;
-  font-weight: 700;
-`;
-
 const Loading = styled.h4`
   color: ${({ theme }) => theme.cardFontColor};
   font-size: 1.8rem;
   margin-top: 3rem;
   font-weight: 700;
+`;
+
+const Wrapper = styled.div`
+  height: 100vh;
+  & > div {
+    margin-top: 10rem;
+    @media ${(props) => props.theme.mobile} {
+      margin-top: 5rem;
+    }
+    & > div {
+      margin-top: 5rem;
+    }
+  }
 `;

@@ -18,7 +18,9 @@ const PostContent = () => {
 
   const { docId } = useParams();
   const { getPost } = useGetPost(docId);
-  const { data } = useQuery(["getPost", docId], getPost);
+  const { data } = useQuery(["getPost", docId], getPost, {
+    staleTime: 3 * 60000,
+  });
 
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const isSession = sessionStorage.getItem(sessionKey);

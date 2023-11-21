@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 interface PostState {
   content: string;
   docId: string;
-  // name: string;
+  name: string;
   title: string;
   createdAt: number;
 }
@@ -14,7 +14,7 @@ interface PostState {
 const CardComponent = ({
   content,
   docId,
-  // name,
+  name,
   title,
   createdAt,
 }: PostState) => {
@@ -50,7 +50,14 @@ const CardComponent = ({
           <Title>{title}</Title>
           <Contents> {contents}</Contents>
         </PostInfo>
-        <CreatedAt>{dayjs(createdAt).format("YYYY-MM-DD")}</CreatedAt>
+        <CreatedAt>{dayjs(createdAt).format("YYYY년 MM월 DD일")}</CreatedAt>
+        {name ? (
+          <UserName>by. {name}</UserName>
+        ) : (
+          <UserName>
+            <span>by</span> Admin
+          </UserName>
+        )}
       </Card>
     </StyledLink>
   );
@@ -90,6 +97,18 @@ const Title = styled.h3`
   margin-bottom: 1rem;
 `;
 
+const UserName = styled.div`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.text};
+  padding: 0 2rem 0 2rem;
+  margin-top: 0.8rem;
+  font-weight: 800;
+
+  & > span {
+    color: ${({ theme }) => theme.cardFontColor};
+  }
+`;
+
 const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -104,7 +123,7 @@ const StyledLink = styled(Link)`
 
 const Contents = styled.div`
   font-size: 1.4rem;
-  color: ${({ theme }) => theme.cardFontColor};
+  color: ${({ theme }) => theme.text};
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 5;
