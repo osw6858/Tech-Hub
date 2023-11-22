@@ -1,49 +1,26 @@
 import MDEditor from "@uiw/react-md-editor";
-import {
-  DocumentData,
-  DocumentReference,
-  collection,
-  deleteDoc,
-  doc,
-} from "firebase/firestore/lite";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiKey, db } from "../../firebase/firebaseConfig";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { apiKey } from "../../firebase/firebaseConfig";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import useGetPost from "../../hooks/getPostHook";
+import useRemovePost from "../../hooks/removePostHook";
 
 const PostContent = () => {
+  const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
-
-  const { docId } = useParams();
-  const { getPost } = useGetPost(docId);
-  const { data } = useQuery(["getPost", docId], getPost, {
-    staleTime: 3 * 60000,
-  });
 
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const isSession = sessionStorage.getItem(sessionKey);
 
-  const queryClient = useQueryClient();
-  const theme = useAppSelector((state) => state.theme);
+  const { docId } = useParams();
+  const { handleRemovePost } = useRemovePost(docId);
+  const { getPost } = useGetPost(docId);
 
-  const deleteMutation = useMutation(
-    (removePost: DocumentReference<DocumentData, DocumentData>) => {
-      return deleteDoc(removePost);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("getAllPost");
-        navigate(`/`);
-        alert("게시물이 성공적으로 삭제되었습니다.");
-      },
-      onError: (error) => {
-        console.error("게시물 삭제 중 오류 발생:", error);
-        navigate(`/error`);
-      },
-    }
-  );
+  const { data } = useQuery(["getPost", docId], getPost, {
+    staleTime: 3 * 60000,
+  });
 
   const handleUpdatePost = () => {
     navigate(`/rewrite/${docId}`);
@@ -58,12 +35,6 @@ const PostContent = () => {
         return false;
       }
     }
-  };
-
-  const handleRemovePost = () => {
-    const docRef = collection(db, "Posts");
-    const documentRef = doc(docRef, docId);
-    deleteMutation.mutate(documentRef);
   };
 
   if (typeof data === "undefined") {

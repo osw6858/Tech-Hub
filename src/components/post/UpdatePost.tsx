@@ -1,16 +1,18 @@
-import { collection, doc, updateDoc } from "firebase/firestore/lite";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { auth, db } from "../../firebase/firebaseConfig";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useGetPost from "../../hooks/getPostHook";
+import useUpdatePost from "../../hooks/updatePostHook";
+import useCheckIsLogin from "../../hooks/checkIsLoginHook";
 
 const UpdatePost = () => {
-  const { docId } = useParams();
+  useCheckIsLogin();
+  const theme = useAppSelector((state) => state.theme);
 
+  const { docId } = useParams();
   const { getPost } = useGetPost(docId);
   const { data } = useQuery(["getPost", docId], getPost, {
     staleTime: 3 * 60000,
@@ -18,50 +20,7 @@ const UpdatePost = () => {
 
   const [md, setMd] = useState(data?.content);
   const [title, setTitle] = useState(data?.title);
-
-  const theme = useAppSelector((state) => state.theme);
-  const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (!auth.currentUser) {
-      alert("로그인이 필요합니다.");
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.currentUser]);
-
-  const UpdateMutation = useMutation(
-    (updateMd: { title: string; content: string }) => {
-      const docRef = collection(db, "Posts");
-      const documentRef = doc(docRef, docId);
-      return updateDoc(documentRef, updateMd);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
-        queryClient.invalidateQueries({ queryKey: ["getPost", docId] });
-        alert("게시물이 성공적으로 수정되었습니다.");
-        navigate(`/post/${docId}`);
-      },
-      onError: (error) => {
-        console.error("게시물 수정 중 오류 발생:", error);
-        navigate(`/error`);
-      },
-    }
-  );
-
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleUpdatePost = async () => {
-    UpdateMutation.mutate({
-      title: title,
-      content: md,
-    });
-  };
+  const { handleUpdatePost } = useUpdatePost(docId, title, md);
 
   if (typeof data === "undefined") {
     //존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들 예정
@@ -72,7 +31,7 @@ const UpdatePost = () => {
     <Container>
       <TitleInput
         value={title}
-        onChange={handleTitle}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="제목을 입력하세요."
       ></TitleInput>
       <Wrapper>

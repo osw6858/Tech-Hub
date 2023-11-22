@@ -20,18 +20,6 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleCloseModal = () => {
-    setLoginModal(false);
-  };
-
-  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -58,9 +46,10 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
       }
     }
   };
+  //커스텀훅으로 만들면 넘겨줘야할 인자들이 많아져 오히려 코드의 복잡성이 증가할거 같음
 
   return (
-    <Container onClick={handleCloseModal}>
+    <Container onClick={() => setLoginModal(false)}>
       <ContentWrapper onClick={(e) => e.stopPropagation()}>
         <p>Login</p>
         {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
@@ -70,7 +59,7 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
               ref={emailRef}
               id="email"
               value={email}
-              onChange={handleEmail}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="이메일 입력"
               type="email"
             />
@@ -78,7 +67,7 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
               ref={passwordRef}
               id="password"
               value={password}
-              onChange={handlePassword}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="비밀번호 입력 "
               type="password"
             />

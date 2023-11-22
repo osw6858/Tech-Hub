@@ -1,55 +1,11 @@
 import styled from "styled-components";
 import CardComponent from "./CardComponent";
-import { useInfiniteQuery } from "react-query";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-} from "firebase/firestore/lite";
-import { db } from "../../firebase/firebaseConfig";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Skeleton } from "antd";
+import useGetAllPosts from "../../hooks/getAllPostHook";
 
 const IndexComponent = () => {
-  const getPosts = async ({ pageParam = null }) => {
-    let dbQuery = query(
-      collection(db, "Posts"),
-      orderBy("createdAt", "desc"),
-      limit(10)
-    );
-
-    if (pageParam) {
-      dbQuery = query(
-        collection(db, "Posts"),
-        orderBy("createdAt", "desc"),
-        startAfter(pageParam),
-        limit(5)
-      );
-    }
-
-    const querySnapshot = await getDocs(dbQuery);
-    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-    const posts = querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return { docID: doc.id, postData: data };
-    });
-
-    return { posts, lastVisible };
-  };
-
-  const { data, fetchNextPage, hasNextPage, status } = useInfiniteQuery(
-    ["getAllPosts"],
-    getPosts,
-    {
-      staleTime: 3 * 6000,
-      getNextPageParam: (lastPage) => {
-        return lastPage.lastVisible; //이 반환값이 getPosts함수의 매개변수로 전달됨
-      },
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, status } = useGetAllPosts();
 
   return (
     <>

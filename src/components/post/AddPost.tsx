@@ -1,71 +1,26 @@
 import styled, { css } from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
-import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/dispatchHook";
-import { addDoc, collection } from "firebase/firestore/lite";
-import { auth, db } from "../../firebase/firebaseConfig";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
+import useAddPostHook from "../../hooks/addPostHook";
+import useCheckIsLogin from "../../hooks/checkIsLoginHook";
+import { useState } from "react";
 
 const AddPost = () => {
+  useCheckIsLogin();
   const navigate = useNavigate();
+  const theme = useAppSelector((state) => state.theme);
+
   const [md, setMd] = useState("");
   const [title, setTitle] = useState("");
 
-  const theme = useAppSelector((state) => state.theme);
-  const now = dayjs();
-
-  useEffect(() => {
-    if (!auth.currentUser) {
-      alert("로그인이 필요합니다.");
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.currentUser]);
-
-  const mutation = useMutation(
-    (newMd: {
-      content: string;
-      uid: string | undefined;
-      displayName: string | undefined | null;
-      title: string;
-      createdAt: number;
-    }) => {
-      const postsCollection = collection(db, "Posts");
-      return addDoc(postsCollection, newMd);
-    },
-    {
-      onSuccess: () => {
-        alert("게시물이 성공적으로 저장되었습니다.");
-        navigate("/");
-      },
-    }
-  );
-
-  const handleSave = async () => {
-    if (md === "" || title === "") {
-      alert("내용을 입력해 주세요");
-      return;
-    }
-    mutation.mutate({
-      title: title,
-      content: md,
-      uid: auth.currentUser?.uid,
-      displayName: auth.currentUser?.displayName,
-      createdAt: now.valueOf(),
-    });
-  };
-
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
+  const { handleSave, mutation } = useAddPostHook(title, md);
 
   return (
     <Container>
       <TitleInput
         value={title}
-        onChange={handleTitle}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="제목을 입력하세요."
       ></TitleInput>
       {mutation.isError ? <ErrorText>에러가 발생했습니다.</ErrorText> : null}

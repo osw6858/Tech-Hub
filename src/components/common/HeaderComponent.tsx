@@ -7,6 +7,7 @@ import LoginFormComponent from "../login/LoginFormComponent";
 import { apiKey, auth } from "../../firebase/firebaseConfig";
 import { signOut } from "firebase/auth";
 import SideBarComponent from "./SideBarComponent";
+import React from "react";
 
 const HeaderComponent = () => {
   const navigate = useNavigate();
@@ -158,6 +159,7 @@ const HeaderComponent = () => {
 };
 
 export default HeaderComponent;
+//export const MemoHeader = React.memo(HeaderComponent);
 
 const Header = styled.header`
   position: sticky;
