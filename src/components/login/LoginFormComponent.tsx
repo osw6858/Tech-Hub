@@ -1,11 +1,6 @@
 import styled, { css } from "styled-components";
-import {
-  auth,
-  signInWithEmailAndPassword,
-} from "../../firebase/firebaseConfig";
 import { useRef, useState } from "react";
-import { browserSessionPersistence, setPersistence } from "firebase/auth";
-import { FirebaseError } from "firebase/app";
+import useLogin from "../../hooks/loginHook";
 
 interface ModalState {
   setLoginModal: (isOpen: boolean) => void;
@@ -20,33 +15,17 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setPersistence(auth, browserSessionPersistence).then(() => {
-        console.log("로그인 성공");
-        setLoginModal(false);
-        setIsLogin(true);
-      });
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        const errorCode = error.code;
-
-        switch (errorCode) {
-          case "auth/user-not-found":
-            setErrorMsg("일치하는 이메일이 없습니다.");
-            emailRef.current?.focus();
-            break;
-          case "auth/wrong-password":
-            setErrorMsg("비밀번호가 일치하지 않습니다.");
-            passwordRef.current?.focus();
-            break;
-        }
-      }
-    }
+  const LoginArgs = {
+    email,
+    password,
+    setLoginModal,
+    setErrorMsg,
+    setIsLogin,
+    emailRef,
+    passwordRef,
   };
-  //커스텀훅으로 만들면 넘겨줘야할 인자들이 많아져 오히려 코드의 복잡성이 증가할거 같음
+
+  const { handleLogin } = useLogin(LoginArgs);
 
   return (
     <Container onClick={() => setLoginModal(false)}>
