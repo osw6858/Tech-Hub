@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import useSeparate from "../../hooks/separateHook";
 
 interface PostState {
   content: string;
@@ -18,28 +18,7 @@ const CardComponent = ({
   title,
   createdAt,
 }: PostState) => {
-  const [sumNail, setSumNail] = useState("");
-  const [contents, setContents] = useState("");
-
-  useEffect(() => {
-    const extractImageURL = (content: string) => {
-      const urlRegex = /!\[.*\]\((https?:\/\/[^ ]*)\)/;
-      const match = content.match(urlRegex);
-      match ? setSumNail(match[1]) : null;
-    };
-
-    extractImageURL(content);
-  }, [content]);
-
-  useEffect(() => {
-    const removeImageTags = (content: string) => {
-      const regex = /!\[.*\]\(.*\)/g;
-      const removeImgContent = content.replace(regex, "");
-      setContents(removeImgContent);
-    };
-
-    removeImageTags(content);
-  }, [content]);
+  const { sumNail, contents } = useSeparate(content);
 
   return (
     <StyledLink to={`/post/${docId}`}>
@@ -52,10 +31,12 @@ const CardComponent = ({
         </PostInfo>
         <CreatedAt>{dayjs(createdAt).format("YYYY년 MM월 DD일")}</CreatedAt>
         {name ? (
-          <UserName>by. {name}</UserName>
+          <UserName>
+            <span>by</span> {name}
+          </UserName>
         ) : (
           <UserName>
-            <span>by</span> Admin
+            <span>by</span> 익명
           </UserName>
         )}
       </Card>
@@ -91,7 +72,7 @@ const Sumnail = styled.img`
   border-radius: 0.4rem;
 `;
 
-const Title = styled.h3`
+const Title = styled.p`
   font-size: 1.6rem;
   font-weight: 800;
   margin-bottom: 1rem;

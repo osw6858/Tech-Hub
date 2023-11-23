@@ -1,13 +1,14 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useRef, useState } from "react";
 import useLogin from "../../hooks/loginHook";
+import { Link } from "react-router-dom";
+import AuthInputComponent from "../common/AuthInputComponent";
 
 interface ModalState {
   setLoginModal: (isOpen: boolean) => void;
-  setIsLogin: (isLogin: boolean) => void;
 }
 
-const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
+const LoginFormComponent = ({ setLoginModal }: ModalState) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -20,7 +21,6 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
     password,
     setLoginModal,
     setErrorMsg,
-    setIsLogin,
     emailRef,
     passwordRef,
   };
@@ -34,7 +34,7 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
         {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
         <LoginForm onSubmit={handleLogin}>
           <InputGroup>
-            <EmailInput
+            <AuthInputComponent
               ref={emailRef}
               id="email"
               value={email}
@@ -42,7 +42,7 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
               placeholder="이메일 입력"
               type="email"
             />
-            <PasswordInput
+            <AuthInputComponent
               ref={passwordRef}
               id="password"
               value={password}
@@ -53,6 +53,9 @@ const LoginFormComponent = ({ setLoginModal, setIsLogin }: ModalState) => {
           </InputGroup>
           <ButtonGroup>
             <LoginButton type="submit">로그인</LoginButton>
+            <StyledLink to={"/singup"} onClick={() => setLoginModal(false)}>
+              <SingUp>아직 회원이 아니신가요?</SingUp>
+            </StyledLink>
           </ButtonGroup>
         </LoginForm>
       </ContentWrapper>
@@ -111,33 +114,9 @@ const InputGroup = styled.div`
   place-items: center;
 `;
 
-const InputCSS = css`
-  background-color: ${({ theme }) => theme.body};
-  min-height: 3rem;
-  padding-left: 1.5rem;
-  outline: none;
-  border: none;
-  border-bottom: ${({ theme }) => theme.border};
-  margin: 1rem 0 1rem 0;
-  color: ${({ theme }) => theme.text};
-  transition: all 0.2s;
-  width: 92%;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.input};
-  }
-`;
-
-const EmailInput = styled.input`
-  ${InputCSS}
-`;
-
-const PasswordInput = styled.input`
-  ${InputCSS}
-`;
-
 const ButtonGroup = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 3rem;
@@ -164,4 +143,15 @@ const ErrorMsg = styled.span`
   color: red;
   margin-bottom: 2rem;
   font-size: 1.5rem;
+`;
+
+const SingUp = styled.p`
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: ${({ theme }) => theme.text};
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;

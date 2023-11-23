@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import CardComponent from "./CardComponent";
+import SmallCardComponent from "./post/SmallCardComponent";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Skeleton } from "antd";
-import useGetAllPosts from "../../hooks/getAllPostHook";
+import useGetAllPosts from "../hooks/getAllPostHook";
 
 const IndexComponent = () => {
   const { data, fetchNextPage, hasNextPage, status } = useGetAllPosts();
@@ -30,7 +30,7 @@ const IndexComponent = () => {
             {data?.pages.map((page) => {
               return page.posts.map((post) => {
                 return (
-                  <CardComponent
+                  <SmallCardComponent
                     key={post.docID}
                     content={post.postData.content}
                     name={post.postData.displayName}

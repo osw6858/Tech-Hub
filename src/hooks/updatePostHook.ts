@@ -12,10 +12,10 @@ const useUpdatePost = (
   const navigate = useNavigate();
 
   const UpdateMutation = useMutation(
-    (updateMd: { title: string; content: string }) => {
+    async (updateMd: { title: string; content: string }) => {
       const docRef = collection(db, "Posts");
       const documentRef = doc(docRef, docId);
-      return updateDoc(documentRef, updateMd);
+      return await updateDoc(documentRef, updateMd);
     },
     {
       onSuccess: () => {

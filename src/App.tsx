@@ -58,4 +58,8 @@ const Main = styled.main`
   width: 100%;
   min-height: calc(100vh - 40.6rem);
   margin: 5rem 0 5rem 0;
+
+  @media ${(props) => props.theme.mobile} {
+    margin: 0 0 5rem 0;
+  }
 `;

@@ -2,25 +2,32 @@ import styled, { css } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 import { setDark } from "../../redux/ThemeSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import LoginFormComponent from "../login/LoginFormComponent";
+import { useEffect, useState } from "react";
+import LoginFormComponent from "../auth/LoginFormComponent";
 import { apiKey, auth } from "../../firebase/firebaseConfig";
 import { signOut } from "firebase/auth";
 import SideBarComponent from "./SideBarComponent";
-import React from "react";
 
 const HeaderComponent = () => {
   const navigate = useNavigate();
 
   const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-  const isSession = sessionStorage.getItem(session_key) ? true : false;
 
   const [loginModal, setLoginModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(isSession);
+  const [isLogin, setIsLogin] = useState(auth.currentUser ? true : false);
   const [sidBar, setSidBar] = useState(false);
 
   const theme = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.currentUser]);
 
   const handleLogOut = () => {
     signOut(auth)
@@ -148,12 +155,7 @@ const HeaderComponent = () => {
           </LoginButton>
         )}
       </MenuItems>
-      {loginModal && (
-        <LoginFormComponent
-          setLoginModal={setLoginModal}
-          setIsLogin={setIsLogin}
-        />
-      )}
+      {loginModal && <LoginFormComponent setLoginModal={setLoginModal} />}
     </Header>
   );
 };

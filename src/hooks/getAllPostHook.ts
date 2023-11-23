@@ -14,7 +14,7 @@ const useGetAllPosts = () => {
     ["getAllPosts"],
     getAllPosts,
     {
-      staleTime: 3 * 6000,
+      staleTime: 4 * 6000,
       getNextPageParam: (lastPage) => {
         return lastPage.lastVisible; //이 반환값이 getAllPosts함수의 매개변수로 전달됨
       },
