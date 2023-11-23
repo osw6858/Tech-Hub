@@ -6,7 +6,7 @@ const useSeparate = (content: string) => {
 
   useEffect(() => {
     const extractImageURL = (content: string) => {
-      const urlRegex = /!\[.*\]\((https?:\/\/[^ ]*)\)/;
+      const urlRegex = /!\[.*\]\((https?:\/\/[^ )]*)\)/;
       const match = content.match(urlRegex);
       match ? setSumNail(match[1]) : null;
     };
