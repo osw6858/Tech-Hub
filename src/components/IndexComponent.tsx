@@ -53,20 +53,20 @@ export default IndexComponent;
 const Container = styled.div`
   & > div > .infinite-scroll-component {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(10rem, 1fr));
     overflow: hidden;
     gap: 2rem;
 
     @media ${(props) => props.theme.laptop} {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(10rem, 1fr));
     }
 
     @media ${(props) => props.theme.tablet} {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(10rem, 1fr));
     }
 
     @media ${(props) => props.theme.mobile} {
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(1, minmax(10rem, 1fr));
     }
   }
 `;
