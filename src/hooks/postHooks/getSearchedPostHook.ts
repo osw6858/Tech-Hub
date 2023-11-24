@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "react-query";
-import useQueryDebounce from "./useQueryDebounce";
+import useQueryDebounce from "../useQueryDebounce";
 import {
   collection,
   endAt,
@@ -10,7 +10,7 @@ import {
   startAfter,
   startAt,
 } from "firebase/firestore/lite";
-import { db } from "../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 
 const useGetSearchedPostHook = (searchQuery: string) => {
   const debouncedhInput = useQueryDebounce(searchQuery, 500);

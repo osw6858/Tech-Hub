@@ -4,9 +4,9 @@ import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import { useState } from "react";
-import useGetPost from "../../hooks/getPostHook";
-import useUpdatePost from "../../hooks/updatePostHook";
-import useCheckIsLogin from "../../hooks/checkIsLoginHook";
+import useGetPost from "../../hooks/postHooks/getPostHook";
+import useUpdatePost from "../../hooks/postHooks/updatePostHook";
+import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 
 const UpdatePost = () => {
   useCheckIsLogin();

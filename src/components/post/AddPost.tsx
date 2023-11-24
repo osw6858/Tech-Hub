@@ -2,8 +2,8 @@ import styled, { css } from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import { useNavigate } from "react-router-dom";
-import useAddPostHook from "../../hooks/addPostHook";
-import useCheckIsLogin from "../../hooks/checkIsLoginHook";
+import useAddPostHook from "../../hooks/postHooks/addPostHook";
+import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import { useState } from "react";
 
 const AddPost = () => {
@@ -14,7 +14,7 @@ const AddPost = () => {
   const [md, setMd] = useState("");
   const [title, setTitle] = useState("");
 
-  const { handleSave, mutation } = useAddPostHook(title, md);
+  const { handleSave, addPostMutation } = useAddPostHook(title, md);
 
   return (
     <Container>
@@ -23,7 +23,9 @@ const AddPost = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="제목을 입력하세요."
       ></TitleInput>
-      {mutation.isError ? <ErrorText>에러가 발생했습니다.</ErrorText> : null}
+      {addPostMutation.isError ? (
+        <ErrorText>에러가 발생했습니다.</ErrorText>
+      ) : null}
       <Wrapper>
         <div
           className="Editor"

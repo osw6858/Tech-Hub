@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import AuthInputComponent from "../common/AuthInputComponent";
 import { useRef, useState } from "react";
-import useSingUp from "../../hooks/singupHook";
-import useName from "../../hooks/setUserName";
+import useSingUp from "../../hooks/authHooks/singupHook";
+import useName from "../../hooks/authHooks/setUserName";
 
 const SingUpComponent = () => {
   const [email, setEmail] = useState("");
@@ -30,8 +30,12 @@ const SingUpComponent = () => {
     <>
       {isSingUp ? (
         <SingUpContainer onSubmit={setUserNickName}>
-          <p>환영합니다!</p>
-          <span>정상적으로 가입이 완료되었습니다.</span>
+          <p>Tech HUB 가입을 축하합니다!</p>
+          <InfoMsg>
+            <p>정상적으로 가입이 완료되었습니다.</p>
+            <span> 본인을 나타낼 이름을 설정해 주세요.</span>
+          </InfoMsg>
+
           <AuthInputComponent
             id="nickName"
             value={nickName}
@@ -78,14 +82,9 @@ const SingUpContainer = styled.form`
   place-items: center;
 
   & > p {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 800;
     margin-bottom: 2rem;
-  }
-
-  & > span {
-    font-size: 1.5rem;
-    color: ${({ theme }) => theme.cardFontColor};
   }
 
   & > input {
@@ -103,6 +102,22 @@ const SingUpContainer = styled.form`
     @media ${(props) => props.theme.mobile} {
       width: 80%;
     }
+  }
+`;
+
+const InfoMsg = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > p {
+    font-size: 2rem;
+  }
+
+  & > span {
+    color: ${({ theme }) => theme.cardFontColor};
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 `;
 

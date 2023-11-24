@@ -1,8 +1,8 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import useGetSearchedPostHook from "../hooks/getSearchedPostHook";
+import useGetSearchedPostHook from "../hooks/postHooks/getSearchedPostHook";
 import { useState } from "react";
 import styled from "styled-components";
-import LargeCardComponent from "./post/LargeCardComponent";
+import LargeCardComponent from "./card/LargeCardComponent";
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,7 +68,7 @@ const Container = styled.div`
 
 const SearchWrapper = styled.div`
   position: relative;
-  width: 80%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;

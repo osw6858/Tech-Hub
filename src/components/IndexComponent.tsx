@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import SmallCardComponent from "./post/SmallCardComponent";
+import SmallCardComponent from "./card/SmallCardComponent";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Skeleton } from "antd";
-import useGetAllPosts from "../hooks/getAllPostHook";
+import useGetAllPosts from "../hooks/postHooks/getAllPostHook";
 
 const IndexComponent = () => {
   const { data, fetchNextPage, hasNextPage, status } = useGetAllPosts();

@@ -1,5 +1,5 @@
 import { collection, doc, getDoc } from "firebase/firestore/lite";
-import { db } from "../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 import { useCallback } from "react";
 
 const useGetPost = (docId: string | undefined) => {

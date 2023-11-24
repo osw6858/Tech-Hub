@@ -1,7 +1,7 @@
 import { collection, doc, updateDoc } from "firebase/firestore/lite";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 
 const useUpdatePost = (
   docId: string | undefined,

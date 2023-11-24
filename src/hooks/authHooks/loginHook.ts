@@ -3,9 +3,10 @@ import {
   setPersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { auth } from "../../firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 interface LoginState {
   email: string;
@@ -24,6 +25,7 @@ const useLogin = ({
   emailRef,
   passwordRef,
 }: LoginState) => {
+  const navigate = useNavigate();
   const LoginMutation = useMutation(
     (loginInput: { email: string; password: string }) => {
       return signInWithEmailAndPassword(
@@ -37,6 +39,7 @@ const useLogin = ({
         setPersistence(auth, browserSessionPersistence).then(() => {
           console.log("로그인 성공");
           setLoginModal(false);
+          navigate("/");
         });
       },
       onError: (error) => {

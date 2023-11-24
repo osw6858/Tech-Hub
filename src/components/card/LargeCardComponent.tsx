@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import dayjs from "dayjs";
 import useSeparate from "../../hooks/separateHook";
+import dayjs from "dayjs";
 
 interface PostState {
   content: string;
@@ -11,24 +11,21 @@ interface PostState {
   createdAt: number;
 }
 
-const CardComponent = ({
+const LargeCardComponent = ({
   content,
   docId,
   name,
   title,
   createdAt,
 }: PostState) => {
-  const { sumNail, contents } = useSeparate(content);
+  const { thumbnail, contents } = useSeparate(content);
 
   return (
     <StyledLink to={`/post/${docId}`}>
       <Card>
-        {sumNail && <Sumnail src={sumNail}></Sumnail>}
-
-        <PostInfo>
-          <Title>{title}</Title>
-          <Contents> {contents}</Contents>
-        </PostInfo>
+        {thumbnail && <Thumbnail src={thumbnail}></Thumbnail>}
+        <Title>{title}</Title>
+        <Contents> {contents}</Contents>
         <CreatedAt>{dayjs(createdAt).format("YYYY년 MM월 DD일")}</CreatedAt>
         {name ? (
           <UserName>
@@ -44,66 +41,45 @@ const CardComponent = ({
   );
 };
 
-export default CardComponent;
+LargeCardComponent;
 
-const Card = styled.div`
-  background-color: ${({ theme }) => theme.card};
-  border: ${({ theme }) => theme.cardBorder};
-  border-radius: 0.4rem;
-  margin-top: 2rem;
-  height: 40rem;
-  max-height: 40rem;
-  max-width: 48rem;
-
-  transition: transform 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  @media ${(props) => props.theme.mobile} {
-    min-width: 23rem;
-  }
-`;
-
-const Sumnail = styled.img`
-  width: 100%;
-  height: 18rem;
-  border-radius: 0.4rem;
-`;
-
-const Title = styled.p`
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-`;
-
-const UserName = styled.div`
-  font-size: 1.2rem;
-  color: ${({ theme }) => theme.text};
-  padding: 0 2rem 0 2rem;
-  margin-top: 0.8rem;
-  font-weight: 800;
-
-  & > span {
-    color: ${({ theme }) => theme.cardFontColor};
-  }
-`;
-
-const PostInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 16rem;
-  padding: 2rem;
-`;
+export default LargeCardComponent;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
 
+const Card = styled.div`
+  width: 100%;
+  max-width: 85rem;
+  border: ${({ theme }) => theme.cardBorder};
+  padding: 2rem 3.5rem 2rem 3.5rem;
+  margin-top: 2rem;
+  min-height: 40rem;
+
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+`;
+
+const Thumbnail = styled.img`
+  width: 100%;
+  min-height: 30rem;
+  max-height: 30rem;
+  object-fit: contain;
+`;
+
+const Title = styled.p`
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 2rem 0 2.5rem 0;
+`;
+
 const Contents = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   color: ${({ theme }) => theme.text};
   line-height: 1.3;
   display: -webkit-box;
@@ -114,7 +90,18 @@ const Contents = styled.div`
 `;
 
 const CreatedAt = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: ${({ theme }) => theme.cardFontColor};
-  padding: 0 2rem 0 2rem;
+  margin-top: 1rem;
+`;
+
+const UserName = styled.div`
+  font-size: 1.3rem;
+  color: ${({ theme }) => theme.text};
+  margin-top: 0.8rem;
+  font-weight: 800;
+
+  & > span {
+    color: ${({ theme }) => theme.cardFontColor};
+  }
 `;

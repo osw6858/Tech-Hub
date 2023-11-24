@@ -4,8 +4,10 @@ import { apiKey } from "../../firebase/firebaseConfig";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { useAppSelector } from "../../hooks/dispatchHook";
-import useGetPost from "../../hooks/getPostHook";
-import useRemovePost from "../../hooks/removePostHook";
+import useGetPost from "../../hooks/postHooks/getPostHook";
+import useRemovePost from "../../hooks/postHooks/removePostHook";
+import dayjs from "dayjs";
+import CommentsComponent from "../comments/CommentsComponent";
 
 const PostContent = () => {
   const theme = useAppSelector((state) => state.theme);
@@ -20,6 +22,9 @@ const PostContent = () => {
 
   const { data } = useQuery(["getPost", docId], getPost, {
     staleTime: 3 * 60000,
+    onError: (error) => {
+      console.error(`${error} 에러발생`);
+    },
   });
 
   const handleUpdatePost = () => {
@@ -36,11 +41,6 @@ const PostContent = () => {
       }
     }
   };
-
-  if (typeof data === "undefined") {
-    //존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들 예정
-    return <div>존재하지 않는 게시물 입니다.</div>;
-  }
 
   return (
     <Wrapper>
@@ -62,6 +62,20 @@ const PostContent = () => {
               }}
             />
           </div>
+          {data.displayName ? (
+            <PostWriter>
+              <span>Posted by</span> {data.displayName}
+            </PostWriter>
+          ) : (
+            <PostWriter>
+              <span>Posted by</span> 익명
+            </PostWriter>
+          )}
+
+          <CreatedAt>
+            {dayjs(data.createdAt).format("YYYY년 MM월 DD일")}
+          </CreatedAt>
+          <CommentsComponent />
         </>
       )}
     </Wrapper>
@@ -93,6 +107,9 @@ const PostTitle = styled.h2`
   font-size: 5rem;
   font-weight: 700;
   margin: 2rem 0 3rem 0;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 4.2rem;
+  }
 `;
 
 const UpdateDelete = styled.div`
@@ -118,4 +135,24 @@ const UpdateText = styled.span`
 const DeleteText = styled.span`
   cursor: pointer;
   font-size: 1.5rem;
+`;
+
+const PostWriter = styled.div`
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 10rem;
+  padding-top: 3rem;
+  border-top: 1px solid ${({ theme }) => theme.contour};
+
+  & > span {
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.cardFontColor};
+    font-weight: 500;
+  }
+`;
+
+const CreatedAt = styled.p`
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.cardFontColor};
+  margin-top: 2rem;
 `;

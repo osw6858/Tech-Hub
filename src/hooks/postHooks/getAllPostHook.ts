@@ -7,7 +7,7 @@ import {
   startAfter,
 } from "firebase/firestore/lite";
 import { useInfiniteQuery } from "react-query";
-import { db } from "../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 
 const useGetAllPosts = () => {
   const { data, fetchNextPage, hasNextPage, status } = useInfiniteQuery(

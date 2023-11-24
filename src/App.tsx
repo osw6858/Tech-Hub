@@ -56,7 +56,7 @@ const Container = styled.div`
 const Main = styled.main`
   height: 100%;
   width: 100%;
-  min-height: calc(100vh - 40.6rem);
+  min-height: calc(100vh - 38rem);
   margin: 5rem 0 5rem 0;
 
   @media ${(props) => props.theme.mobile} {

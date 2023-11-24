@@ -12,28 +12,27 @@ const HeaderComponent = () => {
   const navigate = useNavigate();
 
   const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const isSession = sessionStorage.getItem(`${session_key}`) ? true : false;
 
   const [loginModal, setLoginModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(auth.currentUser ? true : false);
+  const [isLogin, setIsLogin] = useState(isSession);
   const [sidBar, setSidBar] = useState(false);
 
   const theme = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (auth.currentUser) {
+    if (isSession) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.currentUser]);
+  }, [isSession]);
 
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
         sessionStorage.removeItem(session_key);
-        alert("로그아웃성공");
         setIsLogin(false);
         navigate("/");
       })
@@ -42,14 +41,15 @@ const HeaderComponent = () => {
       });
   };
 
-  const handleSidBarClose = () => {
-    setSidBar(false);
-  };
+  //console.log(auth.currentUser); 여기서는 왜 currentUser가 뜨지 않는걸까...
 
   return (
     <Header>
       {sidBar && (
-        <SideBarComponent isOpen={sidBar} handleSidbar={handleSidBarClose} />
+        <SideBarComponent
+          isOpen={sidBar}
+          handleSidbar={() => setSidBar(false)}
+        />
       )}
       <Wrapper>
         <ListSvg

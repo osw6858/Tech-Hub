@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore/lite";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 
 const useRemovePost = (docId: string | undefined) => {
   const navigate = useNavigate();

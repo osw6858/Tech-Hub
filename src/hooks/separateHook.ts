@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 const useSeparate = (content: string) => {
-  const [sumNail, setSumNail] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
   const [contents, setContents] = useState("");
 
   useEffect(() => {
     const extractImageURL = (content: string) => {
       const urlRegex = /!\[.*\]\((https?:\/\/[^ )]*)\)/;
       const match = content.match(urlRegex);
-      match ? setSumNail(match[1]) : null;
+      match ? setThumbnail(match[1]) : null;
     };
 
     extractImageURL(content);
@@ -24,7 +24,7 @@ const useSeparate = (content: string) => {
     removeImageTags(content);
   }, [content]);
 
-  return { sumNail, contents };
+  return { thumbnail, contents };
 };
 
 export default useSeparate;
