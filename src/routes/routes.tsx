@@ -5,6 +5,7 @@ import PostContent from "../components/post/PostContent";
 import UpdatePost from "../components/post/UpdatePost";
 import SearchComponent from "../components/SearchComponent";
 import SingUpComponent from "../components/auth/SingUpComponent";
+import MyPageComponent from "../components/mypage/MypageComponent";
 
 const RoutesComponent = () => {
   return (
@@ -15,6 +16,7 @@ const RoutesComponent = () => {
       <Route path="/rewrite/:docId" element={<UpdatePost />} />
       <Route path="/search" element={<SearchComponent />} />
       <Route path="/singup" element={<SingUpComponent />} />
+      <Route path="/mypage" element={<MyPageComponent />} />
     </Routes>
   );
 };

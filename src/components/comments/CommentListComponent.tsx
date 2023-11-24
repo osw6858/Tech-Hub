@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import useGetComments from "../../hooks/commentHooks/getComments";
 import { CommentsState } from "../../hooks/postHooks/addPostHook";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { apiKey, db } from "../../firebase/firebaseConfig";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore/lite";
+import { apiKey } from "../../firebase/firebaseConfig";
+import useDeleteComment from "../../hooks/commentHooks/DeleteCommentHook";
 
 const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
@@ -25,47 +25,7 @@ const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
     }
   };
 
-  const queryClient = useQueryClient();
-
-  const removeMutation = useMutation(
-    (removeComment: CommentsState) => {
-      const collectionRef = collection(db, "Posts");
-      const documentRef = doc(collectionRef, docId);
-      return updateDoc(documentRef, {
-        comments: removeComment,
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["getPostComments"] });
-        queryClient.invalidateQueries({ queryKey: ["getPost", docId] });
-        alert("삭제 성공!!");
-      },
-    }
-  );
-
-  const handleRemoveComment = async (
-    uid: string,
-    userComment: string,
-    commentedAt: number
-  ) => {
-    const collectionRef = collection(db, "Posts");
-    const documentRef = doc(collectionRef, docId);
-    const docSnap = await getDoc(documentRef);
-
-    if (docSnap.exists()) {
-      const comments = docSnap.data().comments;
-      const updatedComments = comments.filter(
-        (comment: CommentsState) =>
-          comment.uid !== uid ||
-          comment.comment !== userComment ||
-          comment.commentedAt !== commentedAt
-      );
-      removeMutation.mutate(updatedComments);
-    } else {
-      console.log("No such document!");
-    }
-  };
+  const { handleRemoveComment } = useDeleteComment(docId);
 
   return (
     <>
@@ -118,12 +78,14 @@ const Container = styled.div`
 
 const CommentWrapper = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.contour};
-  padding: 2rem;
+  padding: 1rem;
 `;
 
 const CommentBy = styled.span`
+  color: ${({ theme }) => theme.cardFontColor};
   display: inline-block;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 600;
   margin-bottom: 1.3rem;
 `;
 
@@ -138,7 +100,7 @@ const CommentedAt = styled.span`
 `;
 
 const Comment = styled.p`
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: 2rem;
 `;
 
