@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase/firebaseConfig";
 
-const useRemovePost = (docId: string | undefined) => {
+const useRemovePost = (docId: string | undefined, session: string | null) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -19,7 +19,11 @@ const useRemovePost = (docId: string | undefined) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("getAllPost");
+        if (session) {
+          const uid = JSON.parse(session).uid;
+          queryClient.invalidateQueries({ queryKey: ["getMyPosts", uid] });
+        }
+        queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
         navigate(`/`);
         alert("게시물이 성공적으로 삭제되었습니다.");
       },

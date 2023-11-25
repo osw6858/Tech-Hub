@@ -52,13 +52,21 @@ const StyledLink = styled(Link)`
 
 const Card = styled.div`
   width: 100%;
+  min-width: 40vw;
   max-width: 85rem;
   border: ${({ theme }) => theme.cardBorder};
   padding: 2rem 3.5rem 2rem 3.5rem;
   margin-top: 2rem;
   min-height: 40rem;
-
   transition: transform 0.2s ease-in-out;
+
+  @media ${(props) => props.theme.tablet} {
+    min-width: 80vw;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    min-width: 80vw;
+  }
 
   &:hover {
     transform: scale(1.01);

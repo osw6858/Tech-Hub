@@ -20,7 +20,7 @@ export interface CommentsState {
 
 export type CommentList = CommentsState[];
 
-const useAddPostHook = (title: string, md: string) => {
+const useAddPostHook = (title: string, md: string, uid: string) => {
   const navigate = useNavigate();
   const now = dayjs();
 
@@ -41,6 +41,7 @@ const useAddPostHook = (title: string, md: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
+        queryClient.invalidateQueries({ queryKey: ["getMyPosts", uid] });
         alert("게시물이 성공적으로 저장되었습니다.");
         navigate("/");
       },

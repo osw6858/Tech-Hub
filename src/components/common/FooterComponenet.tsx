@@ -6,7 +6,7 @@ const FooterComponent: React.FC = () => {
   return (
     <Footer>
       <Wrapper>
-        <p>Tech Hub 0.4</p>
+        <p>Tech Hub v0.9</p>
 
         <SnsContainer>
           <StyledLink

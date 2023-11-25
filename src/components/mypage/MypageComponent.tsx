@@ -1,45 +1,68 @@
 import styled from "styled-components";
+import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
+import { useState } from "react";
+import AuthInputComponent from "../common/AuthInputComponent";
+import useUpdateNickName from "../../hooks/mypagehook/updateNicknameHook";
+import { apiKey } from "../../firebase/firebaseConfig";
+import MypostComponent from "./MypostComponent";
 
-const MyPageComponent = () => {
+const MypageComponent = () => {
+  useCheckIsLogin();
+
+  const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+
+  //useCheckIsLogin 훅에서 세션체크를 이미 했음
+  const session = sessionStorage.getItem(`${session_key}`) as string;
+  const user = JSON.parse(session);
+
+  const [update, setUpdate] = useState(false);
+  const [nickName, setNickName] = useState("");
+
+  const { handleUpdateNickName } = useUpdateNickName(
+    nickName,
+    setUpdate,
+    setNickName
+  );
+
   return (
     <Container>
-      <p>Profile</p>
-      <Profile>
+      <UserInfoWrapper>
         <div>
-          <InfoLabel>닉네임</InfoLabel>
-          <InfoValue>더미이름</InfoValue>
+          {update ? null : <InfoTitle>닉네임</InfoTitle>}
+          {update ? (
+            <AuthInputComponent
+              id={"nickName"}
+              value={nickName}
+              onChange={(e) => setNickName(e.target.value)}
+              placeholder={"변경할 닉네임 입력"}
+              type={"text"}
+            />
+          ) : (
+            <Info>{"displayName" in user ? user.displayName : "익명"}</Info>
+          )}
         </div>
-        <div>
-          <InfoLabel>이메일</InfoLabel>
-          <InfoValue>더미Email</InfoValue>
-        </div>
-      </Profile>
+        {update ? (
+          <UpdateButton onClick={handleUpdateNickName}>저장</UpdateButton>
+        ) : (
+          <UpdateButton onClick={() => setUpdate(true)}>수정</UpdateButton>
+        )}
+      </UserInfoWrapper>
+      <PostListWrapper>
+        <MypostTitle>My posts</MypostTitle>
+        <MypostComponent uid={user.uid} />
+      </PostListWrapper>
     </Container>
   );
 };
 
-export default MyPageComponent;
+export default MypageComponent;
 
 const Container = styled.div`
-  height: 100%;
   width: 60%;
   margin: 0 auto;
-  margin-bottom: 5rem;
-
-  & > p {
-    font-size: 5rem;
-    max-width: 20rem;
-    margin: 0 auto;
-    text-align: center;
-    font-weight: 700;
-  }
-
-  @media ${(props) => props.theme.laptop} {
-    width: 80%;
-  }
 
   @media ${(props) => props.theme.tablet} {
-    width: 95%;
+    width: 85%;
   }
 
   @media ${(props) => props.theme.mobile} {
@@ -47,22 +70,60 @@ const Container = styled.div`
   }
 `;
 
-const Profile = styled.div`
-  height: 20rem;
+const UserInfoWrapper = styled.div`
+  margin-top: 5rem;
   border-bottom: 1px solid ${({ theme }) => theme.contour};
-  color: ${({ theme }) => theme.text};
-  margin-top: 3rem;
-  display: grid;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > div > input {
+    margin: 0 0 0 0;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    padding: 0 0 3rem 0;
+  }
 `;
 
-const InfoLabel = styled.span`
-  display: inline-block;
+const InfoTitle = styled.span`
   font-size: 2rem;
-  color: ${({ theme }) => theme.cardFontColor};
-  margin-bottom: 1rem;
+  font-weight: 600;
+  margin-right: 2rem;
 `;
 
-const InfoValue = styled.div`
-  font-size: 3rem;
+const Info = styled.span`
+  font-size: 1.6rem;
+  color: ${({ theme }) => theme.cardFontColor};
+`;
+
+const UpdateButton = styled.button`
+  background-color: ${({ theme }) => theme.button};
+  color: ${({ theme }) => theme.buttonText};
+  border-radius: 1.3rem;
+  border: 1xp solid gray;
   font-weight: 600;
+  outline: none;
+  padding: 1rem;
+  min-width: 6rem;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.buttonHover};
+  }
+`;
+
+const PostListWrapper = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MypostTitle = styled.h2`
+  font-size: 4rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
 `;

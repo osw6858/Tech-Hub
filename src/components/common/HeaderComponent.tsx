@@ -206,10 +206,12 @@ const Wrapper = styled.div`
 const Logo = styled.h1`
   font-size: 2.8rem;
   font-weight: 700;
-  flex-grow: 1;
 
   @media ${(props) => props.theme.mobile} {
     font-size: 1.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -231,9 +233,9 @@ const SvgStyle = css`
   }
 
   @media ${(props) => props.theme.mobile} {
-    margin: 0 0.8rem 0 0.8rem;
-    min-width: 2.6rem;
-    min-height: 2.6rem;
+    margin: 0 0.4rem 0 1rem;
+    min-width: 2rem;
+    min-height: 2rem;
   }
 `;
 
@@ -243,6 +245,9 @@ const ListSvg = styled.svg`
 
   @media ${(props) => props.theme.mobile} {
     display: block;
+    margin: 0 1rem 0 0rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
   }
 `;
 

@@ -3,7 +3,7 @@ import IndexComponent from "../components/IndexComponent";
 import AddPost from "../components/post/AddPost";
 import PostContent from "../components/post/PostContent";
 import UpdatePost from "../components/post/UpdatePost";
-import SearchComponent from "../components/SearchComponent";
+import SearchComponent from "../components/common/SearchComponent";
 import SingUpComponent from "../components/auth/SingUpComponent";
 import MyPageComponent from "../components/mypage/MypageComponent";
 

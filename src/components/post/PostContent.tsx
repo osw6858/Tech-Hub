@@ -8,16 +8,17 @@ import useGetPost from "../../hooks/postHooks/getPostHook";
 import useRemovePost from "../../hooks/postHooks/removePostHook";
 import dayjs from "dayjs";
 import CommentsComponent from "../comments/CommentsComponent";
+import { useCallback } from "react";
 
 const PostContent = () => {
   const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
 
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
-  const isSession = sessionStorage.getItem(sessionKey);
+  const session = sessionStorage.getItem(sessionKey);
 
   const { docId } = useParams();
-  const { handleRemovePost } = useRemovePost(docId);
+  const { handleRemovePost } = useRemovePost(docId, session);
   const { getPost } = useGetPost(docId);
 
   const { data } = useQuery(["getPost", docId], getPost, {
@@ -31,16 +32,16 @@ const PostContent = () => {
     navigate(`/rewrite/${docId}`);
   };
 
-  const isPostedUser = () => {
-    if (typeof isSession === "string") {
-      const uid = JSON.parse(isSession).uid;
+  const isPostedUser = useCallback(() => {
+    if (typeof session === "string") {
+      const uid = JSON.parse(session).uid;
       if (uid === data?.uid) {
         return true;
       } else {
         return false;
       }
     }
-  };
+  }, [data?.uid, session]);
 
   return (
     <Wrapper>
@@ -108,7 +109,7 @@ const PostTitle = styled.h2`
   font-weight: 700;
   margin: 2rem 0 3rem 0;
   @media ${(props) => props.theme.mobile} {
-    font-size: 4.2rem;
+    font-size: 3.2rem;
   }
 `;
 
