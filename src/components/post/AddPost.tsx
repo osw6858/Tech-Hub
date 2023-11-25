@@ -5,21 +5,23 @@ import { useNavigate } from "react-router-dom";
 import useAddPostHook from "../../hooks/postHooks/addPostHook";
 import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import { useState } from "react";
-import { apiKey } from "../../firebase/firebaseConfig";
+import { auth } from "../../firebase/firebaseConfig";
 
 const AddPost = () => {
   useCheckIsLogin();
   const navigate = useNavigate();
   const theme = useAppSelector((state) => state.theme);
 
-  const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-  const session = sessionStorage.getItem(`${session_key}`) as string;
-  const uid = JSON.parse(session).uid;
-
   const [md, setMd] = useState("");
   const [title, setTitle] = useState("");
 
-  const { handleSave, addPostMutation } = useAddPostHook(title, md, uid);
+  const { handleSave, addPostMutation } = useAddPostHook(
+    title,
+    md,
+    auth.currentUser?.uid
+  );
+
+  //console.log(md);
 
   return (
     <Container>

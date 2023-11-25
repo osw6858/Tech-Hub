@@ -20,7 +20,7 @@ export interface CommentsState {
 
 export type CommentList = CommentsState[];
 
-const useAddPostHook = (title: string, md: string, uid: string) => {
+const useAddPostHook = (title: string, md: string, uid: string | undefined) => {
   const navigate = useNavigate();
   const now = dayjs();
 

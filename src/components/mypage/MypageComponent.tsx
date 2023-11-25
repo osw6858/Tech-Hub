@@ -9,12 +9,6 @@ import MypostComponent from "./MypostComponent";
 const MypageComponent = () => {
   useCheckIsLogin();
 
-  const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-
-  //useCheckIsLogin 훅에서 세션체크를 이미 했음
-  const session = sessionStorage.getItem(`${session_key}`) as string;
-  const user = JSON.parse(session);
-
   const [update, setUpdate] = useState(false);
   const [nickName, setNickName] = useState("");
 
@@ -23,6 +17,15 @@ const MypageComponent = () => {
     setUpdate,
     setNickName
   );
+
+  const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const session = sessionStorage.getItem(`${session_key}`);
+
+  if (!session) {
+    return null;
+  }
+
+  const user = JSON.parse(session);
 
   return (
     <Container>

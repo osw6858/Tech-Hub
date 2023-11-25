@@ -2,8 +2,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 import LargeCardComponent from "../card/LargeCardComponent";
 import useGetMyPost from "../../hooks/mypagehook/getMyPostHook";
+import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 
 const MypostComponent = ({ uid }: { uid: string }) => {
+  useCheckIsLogin();
+
   const { data, fetchNextPage, hasNextPage } = useGetMyPost(uid);
 
   return (
@@ -16,10 +19,7 @@ const MypostComponent = ({ uid }: { uid: string }) => {
         loader={<h4>Loading...</h4>}
       >
         {data?.pages.map((page) => {
-          const sortedPost = page.posts.sort(
-            (a, b) => b.postData.createdAt - a.postData.createdAt
-          );
-          return sortedPost.map((post) => {
+          return page.posts.map((post) => {
             return (
               <LargeCardComponent
                 key={post.docID}
