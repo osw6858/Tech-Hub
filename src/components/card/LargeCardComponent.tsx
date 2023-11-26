@@ -9,6 +9,7 @@ interface PostState {
   name: string;
   title: string;
   createdAt: number;
+  category: string;
 }
 
 const LargeCardComponent = ({

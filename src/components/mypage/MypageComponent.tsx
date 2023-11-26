@@ -22,11 +22,13 @@ const MypageComponent = () => {
   const session = sessionStorage.getItem(`${session_key}`);
 
   if (!session) {
+    //권한 없이 접근시 마이페이지에 개인정보는 노출을 하면 안됨
     return null;
   }
 
   const user = JSON.parse(session);
 
+  //TODO: 내가 올린 포스트 검색 기능 만들기
   return (
     <Container>
       <UserInfoWrapper>

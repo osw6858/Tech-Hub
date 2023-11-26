@@ -13,6 +13,7 @@ const useRemovePost = (docId: string | undefined, session: string | null) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  //TODO: 게시물 삭제전 확인/취소 모달창 만들기
   const deleteMutation = useMutation(
     (removePost: DocumentReference<DocumentData, DocumentData>) => {
       return deleteDoc(removePost);
@@ -25,9 +26,9 @@ const useRemovePost = (docId: string | undefined, session: string | null) => {
         }
         queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
         navigate(`/`);
-        alert("게시물이 성공적으로 삭제되었습니다.");
       },
       onError: (error) => {
+        //TODO: 에러처리 보강
         console.error("게시물 삭제 중 오류 발생:", error);
         navigate(`/error`);
       },

@@ -23,6 +23,7 @@ const useUpdateNickName = (
         setNickName("");
       },
       onError: (error) => {
+        //TODO: 에러처리 보강
         alert(`오류 발생 ${error}`);
       },
     }

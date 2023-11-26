@@ -46,6 +46,8 @@ const useAddPostHook = (title: string, md: string, uid: string | undefined) => {
         navigate("/");
       },
       onError: () => {
+        //TODO: 에러처리 보강
+
         console.error("에러발생");
         navigate(`/error`);
       },

@@ -47,6 +47,7 @@ const SearchComponent = () => {
                 title={post.postData.title}
                 docId={post.docID}
                 createdAt={post.postData.createdAt}
+                category={post.postData.category}
               />
             );
           });

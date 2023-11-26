@@ -36,6 +36,7 @@ const IndexComponent = () => {
                     name={post.postData.displayName}
                     title={post.postData.title}
                     docId={post.docID}
+                    category={post.postData.category}
                     createdAt={post.postData.createdAt}
                   />
                 );

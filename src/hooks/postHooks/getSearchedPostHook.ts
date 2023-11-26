@@ -24,6 +24,7 @@ const useGetSearchedPostHook = (searchQuery: string) => {
       getNextPageParam: (lastPage) => {
         return lastPage.lastVisible;
       },
+      //TODO: 성공/실패시 처리 메서드 추가
     }
   );
 

@@ -6,6 +6,7 @@ import { db } from "../../firebase/firebaseConfig";
 const useDeleteComment = (docId: string | undefined) => {
   const queryClient = useQueryClient();
 
+  //TODO: 댓글 삭제전 확인/취소 모달창 추가
   const removeMutation = useMutation(
     (removeComment: CommentsState) => {
       const collectionRef = collection(db, "Posts");
@@ -18,9 +19,9 @@ const useDeleteComment = (docId: string | undefined) => {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["getPostComments"] });
         queryClient.invalidateQueries({ queryKey: ["getPost", docId] });
-        alert("삭제 성공!!");
       },
       onError: (error) => {
+        //TODO: 에러처리 보강
         console.error(`삭제중 문제 발생 오류내용 : ${error}`);
       },
     }

@@ -16,6 +16,7 @@ const useName = (nickName: string) => {
           alert(`${nickName}님 환영합니다!`);
         })
         .catch((error) => {
+          //TODO: 에러처리 보강
           console.error(error);
         });
     }

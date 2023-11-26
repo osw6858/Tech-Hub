@@ -6,13 +6,20 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { apiKey } from "../../firebase/firebaseConfig";
 import useDeleteComment from "../../hooks/commentHooks/DeleteCommentHook";
+import ModalComoponent from "../common/ModalComponent";
+import { useState } from "react";
 
 const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
+  dayjs.extend(relativeTime);
+
+  const [modal, setModal] = useState(false);
+  const [selectedComment, setSelectedComment] = useState<CommentsState>();
+
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const isSession = sessionStorage.getItem(sessionKey);
 
   const { getPostComments } = useGetComments(docId);
-  dayjs.extend(relativeTime);
+  const { handleRemoveComment } = useDeleteComment(docId);
 
   const { data } = useQuery(["getPostComments", docId], getPostComments, {
     staleTime: 3 * 60000,
@@ -25,8 +32,8 @@ const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
     }
   };
 
-  const { handleRemoveComment } = useDeleteComment(docId);
-
+  // console.log("리렌더링발생");
+  //모달이 반복문 안에 들어가 있어서 배경이 진해지는 문제가 있어서 해결은 했는데, 코드 효율적으로 잘 짠거 같진 않은거 같은 느낌
   return (
     <>
       {data && data.length !== 0 ? (
@@ -42,13 +49,10 @@ const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
                 </CommentedAt>
                 {getSessionUid() === comment.uid && (
                   <DeleteText
-                    onClick={() =>
-                      handleRemoveComment(
-                        comment.uid,
-                        comment.comment,
-                        comment.commentedAt
-                      )
-                    }
+                    onClick={() => {
+                      setSelectedComment(comment);
+                      setModal(true);
+                    }}
                   >
                     삭제
                   </DeleteText>
@@ -62,6 +66,18 @@ const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
         <NoComment>
           <p>아직 댓글이 없습니다.</p>
         </NoComment>
+      )}
+      {modal && selectedComment && (
+        <ModalComoponent
+          setModal={setModal}
+          handlePostAndComment={() =>
+            handleRemoveComment(
+              selectedComment.uid,
+              selectedComment.comment,
+              selectedComment.commentedAt
+            )
+          }
+        />
       )}
     </>
   );

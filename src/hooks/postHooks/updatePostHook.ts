@@ -25,6 +25,7 @@ const useUpdatePost = (
         navigate(`/post/${docId}`);
       },
       onError: (error) => {
+        //TODO: 에러처리 보강
         console.error("게시물 수정 중 오류 발생:", error);
         navigate(`/error`);
       },

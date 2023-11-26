@@ -36,6 +36,7 @@ const useAddComment = (
         alert("게시물이 정상적으로 작성!");
       },
       onError: () => {
+        //TODO: 에러처리 보강
         console.error("에러발생");
         navigate(`/post/${docId}`);
       },

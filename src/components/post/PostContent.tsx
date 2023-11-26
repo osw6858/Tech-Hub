@@ -8,9 +8,12 @@ import useGetPost from "../../hooks/postHooks/getPostHook";
 import useRemovePost from "../../hooks/postHooks/removePostHook";
 import dayjs from "dayjs";
 import CommentsComponent from "../comments/CommentsComponent";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import ModalComoponent from "../common/ModalComponent";
 
 const PostContent = () => {
+  const [modal, setModal] = useState(false);
+
   const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
 
@@ -32,6 +35,10 @@ const PostContent = () => {
     navigate(`/rewrite/${docId}`);
   };
 
+  const handleRemoveModal = () => {
+    setModal(true);
+  };
+
   const isPostedUser = useCallback(() => {
     if (typeof session === "string") {
       const uid = JSON.parse(session).uid;
@@ -48,7 +55,7 @@ const PostContent = () => {
       {isPostedUser() && (
         <UpdateDelete>
           <UpdateText onClick={handleUpdatePost}>수정</UpdateText>{" "}
-          <DeleteText onClick={handleRemovePost}>삭제</DeleteText>
+          <DeleteText onClick={handleRemoveModal}>삭제</DeleteText>
         </UpdateDelete>
       )}
       {data && (
@@ -78,6 +85,12 @@ const PostContent = () => {
           </CreatedAt>
           <CommentsComponent />
         </>
+      )}
+      {modal && (
+        <ModalComoponent
+          setModal={setModal}
+          handlePostAndComment={handleRemovePost}
+        />
       )}
     </Wrapper>
   );

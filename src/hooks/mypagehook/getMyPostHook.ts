@@ -18,6 +18,7 @@ const useGetMyPost = (uid: string) => {
       getNextPageParam: (lastPage) => {
         return lastPage.lastVisible; //이 반환값이 getAllPosts함수의 매개변수로 전달됨
       },
+      //TODO: 성공/실패시 처리 메서드 추가
     }
   );
 
