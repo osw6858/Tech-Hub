@@ -28,7 +28,7 @@ const MypageComponent = () => {
 
   const user = JSON.parse(session);
 
-  //TODO: 내가 올린 포스트 검색 기능 만들기
+  //TODO: 변경취소 버튼 만들기
   return (
     <Container>
       <UserInfoWrapper>

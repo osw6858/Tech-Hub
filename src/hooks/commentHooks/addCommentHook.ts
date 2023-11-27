@@ -33,7 +33,6 @@ const useAddComment = (
         queryClient.invalidateQueries({ queryKey: ["getPostComments"] });
         queryClient.invalidateQueries({ queryKey: ["getPost", docId] });
         setComment("");
-        alert("게시물이 정상적으로 작성!");
       },
       onError: () => {
         //TODO: 에러처리 보강

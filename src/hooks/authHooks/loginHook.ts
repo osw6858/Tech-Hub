@@ -43,7 +43,7 @@ const useLogin = ({
         });
       },
       onError: (error) => {
-        //TODO: 에러처리 보강하기
+        //TODO: 에러처리 보강하기 + 로그인 실패시 콘솔에 파이어베이스 오류 뜨는거 잡아내기
         if (error instanceof FirebaseError) {
           const errorCode = error.code;
 

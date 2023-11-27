@@ -6,13 +6,14 @@ import { db } from "../../firebase/firebaseConfig";
 const useUpdatePost = (
   docId: string | undefined,
   title: string,
-  md: string
+  md: string,
+  category: string
 ) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const UpdateMutation = useMutation(
-    async (updateMd: { title: string; content: string }) => {
+    async (updateMd: { title: string; content: string; category: string }) => {
       const docRef = collection(db, "Posts");
       const documentRef = doc(docRef, docId);
       return await updateDoc(documentRef, updateMd);
@@ -36,6 +37,7 @@ const useUpdatePost = (
     UpdateMutation.mutate({
       title: title,
       content: md,
+      category,
     });
   };
 

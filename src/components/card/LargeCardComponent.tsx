@@ -18,6 +18,7 @@ const LargeCardComponent = ({
   name,
   title,
   createdAt,
+  category,
 }: PostState) => {
   const { thumbnail, contents } = useSeparate(content);
 
@@ -31,10 +32,12 @@ const LargeCardComponent = ({
         {name ? (
           <UserName>
             <span>by</span> {name}
+            <span>{category}</span>
           </UserName>
         ) : (
           <UserName>
             <span>by</span> 익명
+            <span>{category}</span>
           </UserName>
         )}
       </Card>

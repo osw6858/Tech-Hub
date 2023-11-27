@@ -56,10 +56,11 @@ const Container = styled.div`
 const Main = styled.main`
   height: 100%;
   width: 100%;
-  min-height: calc(100vh - 38rem);
+  min-height: calc(100vh - 40rem);
   margin: 5rem 0 5rem 0;
 
   @media ${(props) => props.theme.mobile} {
     margin: 0 0 5rem 0;
+    min-height: calc(100vh - 38rem);
   }
 `;

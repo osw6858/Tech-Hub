@@ -7,6 +7,7 @@ import { useState } from "react";
 import useGetPost from "../../hooks/postHooks/getPostHook";
 import useUpdatePost from "../../hooks/postHooks/updatePostHook";
 import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
+import SelectorComponent from "../common/SelectorComponent";
 
 const UpdatePost = () => {
   useCheckIsLogin();
@@ -20,10 +21,12 @@ const UpdatePost = () => {
 
   const [md, setMd] = useState(data?.content);
   const [title, setTitle] = useState(data?.title);
-  const { handleUpdatePost } = useUpdatePost(docId, title, md);
+  const [category, setCategory] = useState(data?.category);
+
+  const { handleUpdatePost } = useUpdatePost(docId, title, md, category);
 
   if (typeof data === "undefined") {
-    //존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들 예정
+    //TODO: 존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들기
     return <div>존재하지 않는 게시물 입니다.</div>;
   }
 
@@ -34,6 +37,8 @@ const UpdatePost = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="제목을 입력하세요."
       ></TitleInput>
+      {/**TODO: 셀렉터 컴포넌트로 분리 */}
+      <SelectorComponent category={category} setCategory={setCategory} />
       <Wrapper>
         <div data-color-mode={theme.dark ? "darkT" : "light"}>
           <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
@@ -53,7 +58,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-top: 5rem;
+  margin-top: 2rem;
 `;
 
 const TitleInput = styled.input`

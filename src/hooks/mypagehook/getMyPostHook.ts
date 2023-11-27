@@ -2,6 +2,7 @@ import {
   collection,
   getDocs,
   limit,
+  orderBy,
   query,
   startAfter,
   where,
@@ -26,17 +27,17 @@ const useGetMyPost = (uid: string) => {
     let dbQuery = query(
       collection(db, "Posts"),
       where("uid", "==", uid),
-      limit(5)
+      orderBy("createdAt", "desc"),
+      limit(20)
     );
 
     if (pageParam) {
       dbQuery = query(
         collection(db, "Posts"),
-
         where("uid", "==", uid),
-
+        orderBy("createdAt", "desc"),
         startAfter(pageParam),
-        limit(3)
+        limit(5)
       );
     }
 

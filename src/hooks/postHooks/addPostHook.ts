@@ -20,7 +20,12 @@ export interface CommentsState {
 
 export type CommentList = CommentsState[];
 
-const useAddPostHook = (title: string, md: string, uid: string | undefined) => {
+const useAddPostHook = (
+  title: string,
+  md: string,
+  uid: string | undefined,
+  category: string
+) => {
   const navigate = useNavigate();
   const now = dayjs();
 
@@ -34,6 +39,7 @@ const useAddPostHook = (title: string, md: string, uid: string | undefined) => {
       title: string;
       createdAt: number;
       comments: CommentList;
+      category: string;
     }) => {
       const postsCollection = collection(db, "Posts");
       return addDoc(postsCollection, newMd);
@@ -70,6 +76,7 @@ const useAddPostHook = (title: string, md: string, uid: string | undefined) => {
       displayName: auth.currentUser?.displayName,
       createdAt: now.valueOf(),
       comments: [],
+      category: category,
     });
   };
   return { handleSave, addPostMutation };
