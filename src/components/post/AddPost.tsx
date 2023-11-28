@@ -70,7 +70,7 @@ const TitleInput = styled.input`
   font-size: 4rem;
   color: ${({ theme }) => theme.text};
   padding-left: 1rem;
-  width: 99%;
+  width: 95%;
   transition: all 0.3s;
 
   @media ${(props) => props.theme.mobile} {
