@@ -102,11 +102,12 @@ const TextWrapper = styled.div`
   margin: 2.5rem;
 
   & > h2 {
-    font-size: 2rem;
+    font-weight: 600;
+    font-size: 1.6rem;
     margin-bottom: 1rem;
   }
   & > p {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-top: 2rem;
     color: red;

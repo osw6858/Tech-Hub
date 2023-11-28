@@ -32,12 +32,16 @@ const LargeCardComponent = ({
         {name ? (
           <UserName>
             <span>by</span> {name}
-            <span>{category}</span>
+            {category === "none" ? null : (
+              <CategoryName>{category}</CategoryName>
+            )}
           </UserName>
         ) : (
           <UserName>
             <span>by</span> 익명
-            <span>{category}</span>
+            {category === "none" ? null : (
+              <CategoryName>{category}</CategoryName>
+            )}
           </UserName>
         )}
       </Card>
@@ -116,4 +120,8 @@ const UserName = styled.div`
   & > span {
     color: ${({ theme }) => theme.cardFontColor};
   }
+`;
+
+const CategoryName = styled.span`
+  margin-left: 1rem;
 `;

@@ -6,12 +6,13 @@ import useGetAllPosts from "../hooks/postHooks/getAllPostHook";
 import { DocumentData } from "firebase/firestore/lite";
 import CategoryTegComponent from "./common/CategoryTegComponent";
 import { useState } from "react";
+import useCategory from "../hooks/postHooks/setCategoryHook";
 
-type Category = {
+export type Category = {
   [key: string]: { postData: DocumentData; docId: string }[];
 };
 
-type PostData = {
+export type PostData = {
   postData: DocumentData;
   docId: string;
 };
@@ -21,27 +22,7 @@ const IndexComponent = () => {
 
   const { data, fetchNextPage, hasNextPage, status } = useGetAllPosts();
 
-  const post = data?.pages
-    .map((page) =>
-      page.posts.map((post) => ({
-        postData: post.postData,
-        docId: post.docID,
-      }))
-    )
-    .flat();
-
-  // 카테고리별 분류작업
-  const result = post?.reduce((acc: Category, cur: PostData) => {
-    const category = cur.postData.category;
-
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-
-    acc[category].push(cur);
-
-    return acc;
-  }, {});
+  const { result } = useCategory(data);
 
   return (
     <>

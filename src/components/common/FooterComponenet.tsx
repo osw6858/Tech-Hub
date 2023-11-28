@@ -6,7 +6,8 @@ const FooterComponent: React.FC = () => {
   return (
     <Footer>
       <Wrapper>
-        <p>Tech Hub v0.9</p>
+        <p>Tech Hub </p>
+        <p>ver.1.0-beta</p>
 
         <SnsContainer>
           <StyledLink
@@ -39,7 +40,7 @@ const FooterComponent: React.FC = () => {
               <circle cx="390.476" cy="121.524" r="30.23"></circle>
             </svg>
           </StyledLink>
-          <StyledLink to="https://github.com/osw6858" target="_blank">
+          <StyledLink to="https://github.com/osw6858/Tech-Hub" target="_blank">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

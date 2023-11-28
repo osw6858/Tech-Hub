@@ -35,12 +35,16 @@ const CardComponent = ({
         {name ? (
           <UserName>
             <span>by</span> {name}
-            <span>{category}</span>
+            {category === "none" ? null : (
+              <CategoryName>{category}</CategoryName>
+            )}
           </UserName>
         ) : (
           <UserName>
             <span>by</span> 익명
-            <span>{category}</span>
+            {category === "none" ? null : (
+              <CategoryName>{category}</CategoryName>
+            )}
           </UserName>
         )}
       </Card>
@@ -121,4 +125,8 @@ const CreatedAt = styled.div`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.cardFontColor};
   padding: 0 2rem 0 2rem;
+`;
+
+const CategoryName = styled.span`
+  margin-left: 1rem;
 `;

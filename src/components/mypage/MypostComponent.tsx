@@ -4,17 +4,8 @@ import LargeCardComponent from "../card/LargeCardComponent";
 import useGetMyPost from "../../hooks/mypagehook/getMyPostHook";
 import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import { useState } from "react";
-import { DocumentData } from "firebase/firestore/lite";
 import CategoryTegComponent from "../common/CategoryTegComponent";
-
-type Category = {
-  [key: string]: { postData: DocumentData; docId: string }[];
-};
-
-type PostData = {
-  postData: DocumentData;
-  docId: string;
-};
+import useCategory from "../../hooks/postHooks/setCategoryHook";
 
 const MypostComponent = ({ uid }: { uid: string }) => {
   useCheckIsLogin();
@@ -22,28 +13,7 @@ const MypostComponent = ({ uid }: { uid: string }) => {
   const [category, setCategory] = useState<string>("All");
   const { data, fetchNextPage, hasNextPage } = useGetMyPost(uid);
 
-  //TODO: 카테고리 분류로직 함수로 만들어서 분리 (커스텀훅으로도 가능)
-  const post = data?.pages
-    .map((page) =>
-      page.posts.map((post) => ({
-        postData: post.postData,
-        docId: post.docID,
-      }))
-    )
-    .flat();
-
-  // 카테고리별 분류작업
-  const result = post?.reduce((acc: Category, cur: PostData) => {
-    const category = cur.postData.category;
-
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-
-    acc[category].push(cur);
-
-    return acc;
-  }, {});
+  const { result } = useCategory(data);
 
   return (
     <Container>
