@@ -6,18 +6,22 @@ import UpdatePost from "../components/post/UpdatePost";
 import SearchComponent from "../components/common/SearchComponent";
 import SingUpComponent from "../components/auth/SingUpComponent";
 import MyPageComponent from "../components/mypage/MypageComponent";
+import ScrollToTop from "./scrollTop";
 
 const RoutesComponent = () => {
   return (
-    <Routes>
-      <Route path="/" element={<IndexComponent />} />
-      <Route path="/add" element={<AddPost />} />
-      <Route path="/post/:docId" element={<PostContent />} />
-      <Route path="/rewrite/:docId" element={<UpdatePost />} />
-      <Route path="/search" element={<SearchComponent />} />
-      <Route path="/singup" element={<SingUpComponent />} />
-      <Route path="/mypage" element={<MyPageComponent />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<IndexComponent />} />
+        <Route path="/add" element={<AddPost />} />
+        <Route path="/post/:docId" element={<PostContent />} />
+        <Route path="/rewrite/:docId" element={<UpdatePost />} />
+        <Route path="/search" element={<SearchComponent />} />
+        <Route path="/singup" element={<SingUpComponent />} />
+        <Route path="/mypage" element={<MyPageComponent />} />
+      </Routes>
+    </>
   );
 };
 
