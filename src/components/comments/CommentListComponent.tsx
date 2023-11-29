@@ -77,6 +77,8 @@ const CommentListComponent = ({ docId }: { docId: string | undefined }) => {
               selectedComment.commentedAt
             )
           }
+          title="삭제 하시겠습니까?"
+          content="삭제한 댓글은 복구가 불가능합니다."
         />
       )}
     </>

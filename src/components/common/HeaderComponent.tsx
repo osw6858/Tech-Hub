@@ -228,9 +228,6 @@ const SvgStyle = css`
   margin: 0 1.1rem 0 1.1rem;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.2);
-  }
 
   @media ${(props) => props.theme.mobile} {
     margin: 0 0.4rem 0 1rem;
@@ -253,10 +250,6 @@ const ListSvg = styled.svg`
 
 const StyledSvg = styled.svg`
   ${SvgStyle}
-
-  &:hover {
-    transform: scale(1.2);
-  }
 
   @media ${(props) => props.theme.tablet} {
     display: none;

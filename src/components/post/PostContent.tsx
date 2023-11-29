@@ -90,6 +90,8 @@ const PostContent = () => {
         <ModalComoponent
           setModal={setModal}
           handlePostAndComment={handleRemovePost}
+          title={"정말 삭제 하시겠습니까?"}
+          content={"삭제한 게시물은 복구가 불가능 합니다."}
         />
       )}
     </Wrapper>

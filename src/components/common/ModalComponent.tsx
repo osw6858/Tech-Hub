@@ -4,9 +4,16 @@ import { useEffect } from "react";
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   handlePostAndComment: () => void;
+  title: string;
+  content: string;
 }
 
-const ModalComoponent = ({ setModal, handlePostAndComment }: Props) => {
+const ModalComoponent = ({
+  setModal,
+  handlePostAndComment,
+  title,
+  content,
+}: Props) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -23,8 +30,8 @@ const ModalComoponent = ({ setModal, handlePostAndComment }: Props) => {
     <Container>
       <ContentWrapper>
         <TextWrapper>
-          <h2>정말로 삭제 하시겠습니까?</h2>
-          <p>삭제한 게시물과 댓글은 복구할 수 없습니다.</p>
+          <h2>{title}</h2>
+          <p>{content}</p>
         </TextWrapper>
         <ButtonWrapper>
           <ConfirmButton onClick={removePostAndComment}>확인</ConfirmButton>
