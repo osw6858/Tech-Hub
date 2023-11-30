@@ -15,19 +15,6 @@ import { db } from "../../firebase/firebaseConfig";
 const useGetSearchedPostHook = (searchQuery: string) => {
   const debouncedhInput = useQueryDebounce(searchQuery, 500);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ["searchedPost", debouncedhInput],
-    searchPost,
-    {
-      enabled: !!debouncedhInput,
-      staleTime: 3 * 6000,
-      getNextPageParam: (lastPage) => {
-        return lastPage.lastVisible;
-      },
-      //TODO: 성공/실패시 처리 메서드 추가
-    }
-  );
-
   async function searchPost({ pageParam = null }) {
     let dbQuery = query(
       collection(db, "Posts"),
@@ -58,6 +45,19 @@ const useGetSearchedPostHook = (searchQuery: string) => {
     });
     return { searchedPost, lastVisible };
   }
+
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["searchedPost", debouncedhInput],
+    searchPost,
+    {
+      enabled: !!debouncedhInput,
+      staleTime: 3 * 6000,
+      getNextPageParam: (lastPage) => {
+        return lastPage.lastVisible;
+      },
+      //TODO: 성공/실패시 처리 메서드 추가
+    }
+  );
 
   return { data, fetchNextPage, hasNextPage };
 };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRef, useState } from "react";
 import useLogin from "../../hooks/authHooks/loginHook";
 import { Link } from "react-router-dom";
-import AuthInputComponent from "../common/AuthInputComponent";
+import AuthInputComponent from "./AuthInputComponent";
 
 interface ModalState {
   setLoginModal: (isOpen: boolean) => void;

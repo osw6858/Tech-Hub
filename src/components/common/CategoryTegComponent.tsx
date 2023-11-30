@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 interface Category {
@@ -5,11 +6,26 @@ interface Category {
   setCategory: (value: React.SetStateAction<string>) => void;
 }
 
+interface TagProps {
+  $active: string;
+}
+
 const CategoryTegComponent = ({ category, setCategory }: Category) => {
+  const [activeTag, setActiveTag] = useState<string>("All");
+
+  const handleTagClick = (value: string) => {
+    setCategory(value);
+    setActiveTag(value);
+  };
+
   return (
     <Container>
       {category.map((value) => (
-        <Tag key={value} onClick={() => setCategory(value)}>
+        <Tag
+          $active={activeTag === value ? "true" : "false"}
+          key={value}
+          onClick={() => handleTagClick(value)}
+        >
           {value}
         </Tag>
       ))}
@@ -21,9 +37,9 @@ export default CategoryTegComponent;
 
 const Container = styled.div``;
 
-const Tag = styled.span`
+const Tag = styled.span<TagProps>`
   display: inline-block;
-  margin: 0 1rem 0 1rem;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   font-size: 1.5rem;
   padding: 0.8rem;
   min-width: 6rem;
@@ -31,10 +47,12 @@ const Tag = styled.span`
   text-align: center;
   cursor: pointer;
   border-radius: 2rem;
-  color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.card};
+  color: ${(props) => (props.$active === "true" ? "#b2d19d" : "none")};
+  transition: all 0.2s;
 
   @media ${(props) => props.theme.mobile} {
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    font-size: 1.2rem;
+    min-width: 6rem;
   }
 `;

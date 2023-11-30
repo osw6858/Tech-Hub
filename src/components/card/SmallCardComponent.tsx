@@ -18,14 +18,14 @@ const CardComponent = ({
   name,
   title,
   createdAt,
-  category,
-}: PostState) => {
+}: //category,
+PostState) => {
   const { thumbnail, contents } = useSeparate(content);
 
   return (
     <StyledLink to={`/post/${docId}`}>
       <Card>
-        {thumbnail && <Thumbnail src={thumbnail}></Thumbnail>}
+        {thumbnail && <Thumbnail src={thumbnail} alt="Thumbnail"></Thumbnail>}
 
         <PostInfo>
           <Title>{title}</Title>
@@ -35,16 +35,10 @@ const CardComponent = ({
         {name ? (
           <UserName>
             <span>by</span> {name}
-            {category === "none" ? null : (
-              <CategoryName>{category}</CategoryName>
-            )}
           </UserName>
         ) : (
           <UserName>
             <span>by</span> 익명
-            {category === "none" ? null : (
-              <CategoryName>{category}</CategoryName>
-            )}
           </UserName>
         )}
       </Card>
@@ -59,9 +53,9 @@ const Card = styled.div`
   border: ${({ theme }) => theme.cardBorder};
   border-radius: 0.4rem;
   margin-top: 2rem;
-  height: 40rem;
-  max-height: 40rem;
+  height: 100%;
   max-width: 48rem;
+  padding-bottom: 2rem;
 
   transition: transform 0.2s ease-in-out;
 
@@ -76,8 +70,25 @@ const Card = styled.div`
 
 const Thumbnail = styled.img`
   width: 100%;
-  height: 18rem;
+  height: auto;
   border-radius: 0.4rem;
+  object-fit: cover;
+  @supports (aspect-ratio: 16 / 9) {
+    aspect-ratio: 16 / 9;
+  }
+
+  @supports not (aspect-ratio: 16 / 9) {
+    &:before {
+      float: left;
+      padding-top: 56.25%; /* 16:9 비율 */
+      content: "";
+    }
+    &:after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+  }
 `;
 
 const Title = styled.p`
@@ -101,8 +112,8 @@ const UserName = styled.div`
 const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
-  height: 16rem;
-  padding: 2rem;
+  height: 14rem;
+  padding: 1.7rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -115,7 +126,7 @@ const Contents = styled.div`
   color: ${({ theme }) => theme.text};
   line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,8 +136,4 @@ const CreatedAt = styled.div`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.cardFontColor};
   padding: 0 2rem 0 2rem;
-`;
-
-const CategoryName = styled.span`
-  margin-left: 1rem;
 `;

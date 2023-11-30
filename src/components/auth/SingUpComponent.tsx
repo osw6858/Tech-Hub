@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import AuthInputComponent from "../common/AuthInputComponent";
+import AuthInputComponent from "./AuthInputComponent";
 import { useRef, useState } from "react";
 import useSingUp from "../../hooks/authHooks/singupHook";
 import useName from "../../hooks/authHooks/setUserName";

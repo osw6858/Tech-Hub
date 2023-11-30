@@ -1,21 +1,11 @@
 import styled from "styled-components";
 import SmallCardComponent from "./card/SmallCardComponent";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Skeleton } from "antd";
 import useGetAllPosts from "../hooks/postHooks/getAllPostHook";
-import { DocumentData } from "firebase/firestore/lite";
 import CategoryTegComponent from "./common/CategoryTegComponent";
 import { useState } from "react";
 import useCategory from "../hooks/postHooks/setCategoryHook";
-
-export type Category = {
-  [key: string]: { postData: DocumentData; docId: string }[];
-};
-
-export type PostData = {
-  postData: DocumentData;
-  docId: string;
-};
+import SkeletonComponent from "./loading/SkeletonComponent";
 
 const IndexComponent = () => {
   const [category, setCategory] = useState<string>("All");
@@ -28,12 +18,7 @@ const IndexComponent = () => {
     <>
       {status === "loading" ? (
         <Wrapper>
-          <div>
-            <Skeleton active />
-            <Skeleton active />
-            <Skeleton active />
-            <Skeleton active />
-          </div>
+          <SkeletonComponent />
         </Wrapper>
       ) : (
         <>

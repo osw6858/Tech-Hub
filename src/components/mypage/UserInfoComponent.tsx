@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import useUpdateNickName from "../../hooks/mypagehook/updateNicknameHook";
-import AuthInputComponent from "../common/AuthInputComponent";
+import AuthInputComponent from "../auth/AuthInputComponent";
 import { apiKey } from "../../firebase/firebaseConfig";
 import ModalComoponent from "../common/ModalComponent";
 import useWithdrawal from "../../hooks/authHooks/withdrawalHook";

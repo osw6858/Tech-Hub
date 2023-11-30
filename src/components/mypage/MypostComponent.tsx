@@ -72,9 +72,8 @@ export default MypostComponent;
 
 const Container = styled.div`
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  place-items: center;
 `;
 
 const NoPost = styled.h3`

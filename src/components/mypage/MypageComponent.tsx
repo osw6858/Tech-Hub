@@ -58,4 +58,8 @@ const MypostTitle = styled.h2`
   font-size: 4rem;
   font-weight: 600;
   margin-bottom: 2rem;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 3.6rem;
+  }
 `;

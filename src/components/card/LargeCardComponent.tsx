@@ -18,30 +18,24 @@ const LargeCardComponent = ({
   name,
   title,
   createdAt,
-  category,
-}: PostState) => {
+}: // category,
+PostState) => {
   const { thumbnail, contents } = useSeparate(content);
 
   return (
     <StyledLink to={`/post/${docId}`}>
       <Card>
-        {thumbnail && <Thumbnail src={thumbnail}></Thumbnail>}
+        {thumbnail && <Thumbnail src={thumbnail} alt="Thumbnail"></Thumbnail>}
         <Title>{title}</Title>
         <Contents> {contents}</Contents>
         <CreatedAt>{dayjs(createdAt).format("YYYY년 MM월 DD일")}</CreatedAt>
         {name ? (
           <UserName>
             <span>by</span> {name}
-            {category === "none" ? null : (
-              <CategoryName>{category}</CategoryName>
-            )}
           </UserName>
         ) : (
           <UserName>
             <span>by</span> 익명
-            {category === "none" ? null : (
-              <CategoryName>{category}</CategoryName>
-            )}
           </UserName>
         )}
       </Card>
@@ -59,13 +53,11 @@ const StyledLink = styled(Link)`
 `;
 
 const Card = styled.div`
-  width: 100%;
-  min-width: 40vw;
-  max-width: 85rem;
-  border: ${({ theme }) => theme.cardBorder};
-  padding: 2rem 3.5rem 2rem 3.5rem;
-  margin-top: 2rem;
+  min-width: 39vw;
   min-height: 40rem;
+  border: ${({ theme }) => theme.cardBorder};
+  padding: 4rem;
+  margin-top: 2rem;
   transition: transform 0.2s ease-in-out;
 
   @media ${(props) => props.theme.tablet} {
@@ -74,6 +66,7 @@ const Card = styled.div`
 
   @media ${(props) => props.theme.mobile} {
     min-width: 80vw;
+    padding: 2rem;
   }
 
   &:hover {
@@ -83,32 +76,55 @@ const Card = styled.div`
 
 const Thumbnail = styled.img`
   width: 100%;
-  min-height: 30rem;
-  max-height: 30rem;
-  object-fit: contain;
+  height: auto;
+  object-fit: cover;
+  @supports (aspect-ratio: 16 / 9) {
+    aspect-ratio: 16 / 9;
+  }
+
+  @supports not (aspect-ratio: 16 / 9) {
+    &:before {
+      float: left;
+      padding-top: 56.25%; /* 16:9 비율 */
+      content: "";
+    }
+    &:after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+  }
 `;
 
 const Title = styled.p`
   font-size: 2.8rem;
   font-weight: 800;
   margin: 2rem 0 2.5rem 0;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.4rem;
+  }
 `;
 
 const Contents = styled.div`
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: ${({ theme }) => theme.text};
   line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.7rem;
+  }
 `;
 
 const CreatedAt = styled.div`
   font-size: 1.3rem;
   color: ${({ theme }) => theme.cardFontColor};
-  margin-top: 1rem;
+  margin-top: 4rem;
 `;
 
 const UserName = styled.div`
@@ -120,8 +136,4 @@ const UserName = styled.div`
   & > span {
     color: ${({ theme }) => theme.cardFontColor};
   }
-`;
-
-const CategoryName = styled.span`
-  margin-left: 1rem;
 `;

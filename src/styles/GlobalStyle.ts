@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
 
 html{
   font-size: 10px;
+	font-family: 'Pretendard-Regular', sans-serif;
 }
 
 

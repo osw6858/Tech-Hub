@@ -1,6 +1,14 @@
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore/lite";
 import { InfiniteData } from "react-query";
-import { Category, PostData } from "../../components/IndexComponent";
+
+type Category = {
+  [key: string]: { postData: DocumentData; docId: string }[];
+};
+
+type PostData = {
+  postData: DocumentData;
+  docId: string;
+};
 
 type QueryData =
   | InfiniteData<{
