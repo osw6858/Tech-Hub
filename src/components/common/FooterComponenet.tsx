@@ -52,7 +52,7 @@ const FooterComponent: React.FC = () => {
             </svg>
           </StyledLink>
         </SnsContainer>
-        <span>Copyright © 2024 woong</span>
+        <span>Copyright © 2023 woong</span>
       </Wrapper>
     </Footer>
   );
