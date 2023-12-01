@@ -39,11 +39,9 @@ const UpdatePost = () => {
       ></TitleInput>
       {/**TODO: 셀렉터 컴포넌트로 분리 */}
       <SelectorComponent category={category} setCategory={setCategory} />
-      <Wrapper>
-        <div data-color-mode={theme.dark ? "darkT" : "light"}>
-          <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
-        </div>
-      </Wrapper>
+      <div data-color-mode={theme.dark ? "darkT" : "light"}>
+        <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
+      </div>
       <ButtonWrapper>
         <SaveButton onClick={handleUpdatePost}>수정</SaveButton>
       </ButtonWrapper>
@@ -55,10 +53,13 @@ export default UpdatePost;
 
 const Container = styled.div`
   display: grid;
-`;
+  margin-top: 5rem;
+  min-width: 25rem;
 
-const Wrapper = styled.div`
-  margin-top: 2rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.8rem;
+    margin-top: 2rem;
+  }
 `;
 
 const TitleInput = styled.input`
@@ -69,6 +70,13 @@ const TitleInput = styled.input`
   font-size: 4rem;
   color: ${({ theme }) => theme.text};
   padding-left: 1rem;
+  width: 95%;
+  transition: all 0.3s;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.8rem;
+    padding-left: 1rem;
+  }
 `;
 
 const ButtonWrapper = styled.div`
