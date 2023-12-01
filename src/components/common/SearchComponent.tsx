@@ -35,7 +35,7 @@ const SearchComponent = () => {
         dataLength={data?.pages.length ? data?.pages.length : 0}
         next={fetchNextPage}
         hasMore={!!hasNextPage}
-        loader={<h4>Loading...</h4>}
+        loader={null}
       >
         {data?.pages.map((page) => {
           return page.searchedPost.map((post) => {

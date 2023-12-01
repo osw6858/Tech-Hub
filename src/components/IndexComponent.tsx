@@ -31,7 +31,7 @@ const IndexComponent = () => {
             dataLength={data?.pages.length ? data?.pages.length : 0}
             next={fetchNextPage}
             hasMore={!!hasNextPage}
-            loader={<Loading>Loading...</Loading>}
+            loader={null}
           >
             {category === "All" ? (
               data?.pages.map((page) => {
@@ -96,13 +96,6 @@ const Container = styled.div`
       grid-template-columns: repeat(1, minmax(10rem, 1fr));
     }
   }
-`;
-
-const Loading = styled.h4`
-  color: ${({ theme }) => theme.cardFontColor};
-  font-size: 1.8rem;
-  margin-top: 3rem;
-  font-weight: 700;
 `;
 
 const Wrapper = styled.div`

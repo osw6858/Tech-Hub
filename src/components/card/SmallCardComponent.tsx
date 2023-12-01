@@ -97,7 +97,7 @@ const Title = styled.p`
   margin-bottom: 1rem;
 `;
 
-const UserName = styled.div`
+const UserName = styled.p`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.text};
   padding: 0 2rem 0 2rem;
@@ -125,6 +125,7 @@ const Contents = styled.div`
   font-size: 1.4rem;
   color: ${({ theme }) => theme.text};
   line-height: 1.3;
+  font-weight: 200;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
