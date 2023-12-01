@@ -16,64 +16,60 @@ const IndexComponent = () => {
 
   return (
     <>
+      <CategoryTegComponent
+        category={["All", "React", "TS", "JS", "HTML/CSS", "none"]}
+        setCategory={setCategory}
+      />
       {status === "loading" ? (
         <Wrapper>
-          <SkeletonComponent />
+          <SkeletonComponent iterateNum={4} />
         </Wrapper>
       ) : (
-        <>
-          <div>
-            <CategoryTegComponent
-              category={["All", "React", "TS", "JS", "HTML/CSS", "none"]}
-              setCategory={setCategory}
-            />
-          </div>
-          <Container>
-            <InfiniteScroll
-              style={{ overflow: "none" }}
-              dataLength={data?.pages.length ? data?.pages.length : 0}
-              next={fetchNextPage}
-              hasMore={!!hasNextPage}
-              loader={<Loading>Loading...</Loading>}
-            >
-              {category === "All" ? (
-                data?.pages.map((page) => {
-                  return page.posts.map((post) => {
-                    return (
-                      <SmallCardComponent
-                        key={post.docID}
-                        content={post.postData.content}
-                        name={post.postData.displayName}
-                        title={post.postData.title}
-                        docId={post.docID}
-                        category={post.postData.category}
-                        createdAt={post.postData.createdAt}
-                      />
-                    );
-                  });
-                })
-              ) : (
-                <>
-                  {result && result[category] ? (
-                    result[category]?.map((post) => (
-                      <SmallCardComponent
-                        key={post.docId}
-                        content={post.postData.content}
-                        name={post.postData.displayName}
-                        title={post.postData.title}
-                        docId={post.docId}
-                        createdAt={post.postData.createdAt}
-                        category={post.postData.category}
-                      />
-                    ))
-                  ) : (
-                    <NoPost>작성한 포스트가 없습니다.</NoPost>
-                  )}
-                </>
-              )}
-            </InfiniteScroll>
-          </Container>
-        </>
+        <Container>
+          <InfiniteScroll
+            style={{ overflow: "none" }}
+            dataLength={data?.pages.length ? data?.pages.length : 0}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            loader={<Loading>Loading...</Loading>}
+          >
+            {category === "All" ? (
+              data?.pages.map((page) => {
+                return page.posts.map((post) => {
+                  return (
+                    <SmallCardComponent
+                      key={post.docID}
+                      content={post.postData.content}
+                      name={post.postData.displayName}
+                      title={post.postData.title}
+                      docId={post.docID}
+                      category={post.postData.category}
+                      createdAt={post.postData.createdAt}
+                    />
+                  );
+                });
+              })
+            ) : (
+              <>
+                {result && result[category] ? (
+                  result[category]?.map((post) => (
+                    <SmallCardComponent
+                      key={post.docId}
+                      content={post.postData.content}
+                      name={post.postData.displayName}
+                      title={post.postData.title}
+                      docId={post.docId}
+                      createdAt={post.postData.createdAt}
+                      category={post.postData.category}
+                    />
+                  ))
+                ) : (
+                  <NoPost>작성한 포스트가 없습니다.</NoPost>
+                )}
+              </>
+            )}
+          </InfiniteScroll>
+        </Container>
       )}
     </>
   );
@@ -126,3 +122,7 @@ const NoPost = styled.h3`
   font-size: 3rem;
   margin-top: 3rem;
 `;
+
+//<Wrapper>
+//<SkeletonComponent iterateNum={4} />
+//</Wrapper>

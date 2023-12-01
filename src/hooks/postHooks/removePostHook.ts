@@ -27,10 +27,10 @@ const useRemovePost = (docId: string | undefined, session: string | null) => {
         queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
         navigate(`/`);
       },
-      onError: (error) => {
-        //TODO: 에러처리 보강
-        console.error("게시물 삭제 중 오류 발생:", error);
-        navigate(`/error`);
+      onError: (error): never => {
+        alert("게시물 삭제중 문제가 발생했습니다. 관리자에게 문의해 주세요.");
+        navigate("/");
+        throw new Error(`게시물 삭제중 에러 발생 : ${error}`);
       },
     }
   );

@@ -1,11 +1,15 @@
 import { Skeleton } from "antd";
 
-const SkeletonComponent = () => {
-  const skeletonItems = new Array(4);
+type IterateNum = {
+  iterateNum: number;
+};
+
+const SkeletonComponent = ({ iterateNum }: IterateNum) => {
+  const skeletonItems = new Array(iterateNum).fill(1);
   return (
     <>
-      {skeletonItems.map(() => (
-        <Skeleton active />
+      {skeletonItems.map((_, inedx) => (
+        <Skeleton key={inedx} active />
       ))}
     </>
   );
