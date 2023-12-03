@@ -71,7 +71,6 @@ const MypostComponent = ({ uid }: { uid: string }) => {
 export default MypostComponent;
 
 const Container = styled.div`
-  height: 100%;
   display: grid;
   place-items: center;
 `;
