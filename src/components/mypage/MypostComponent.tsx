@@ -26,7 +26,7 @@ const MypostComponent = ({ uid }: { uid: string }) => {
         dataLength={data?.pages.length ? data.pages.length : 0}
         next={fetchNextPage}
         hasMore={!!hasNextPage}
-        loader={<h4>Loading...</h4>}
+        loader={null}
       >
         {category === "All" ? (
           data?.pages.map((page) => {
@@ -78,5 +78,9 @@ const Container = styled.div`
 
 const NoPost = styled.h3`
   font-size: 3rem;
-  margin-top: 3rem;
+  margin-top: 10rem;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2.4rem;
+  }
 `;
