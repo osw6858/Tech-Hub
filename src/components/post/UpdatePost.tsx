@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
@@ -8,9 +8,11 @@ import useGetPost from "../../hooks/postHooks/getPostHook";
 import useUpdatePost from "../../hooks/postHooks/updatePostHook";
 import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import SelectorComponent from "../common/SelectorComponent";
+import ButtonComponent from "../common/ButtonComponent";
 
 const UpdatePost = () => {
   useCheckIsLogin();
+  const navigate = useNavigate();
   const theme = useAppSelector((state) => state.theme);
 
   const { docId } = useParams();
@@ -25,11 +27,6 @@ const UpdatePost = () => {
 
   const { handleUpdatePost } = useUpdatePost(docId, title, md, category);
 
-  if (typeof data === "undefined") {
-    //TODO: 존재하지 않는 게시물을 조회할때 나타낼 컴포넌트 만들기
-    return <div>존재하지 않는 게시물 입니다.</div>;
-  }
-
   return (
     <Container>
       <TitleInput
@@ -43,7 +40,10 @@ const UpdatePost = () => {
         <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
       </div>
       <ButtonWrapper>
-        <SaveButton onClick={handleUpdatePost}>수정</SaveButton>
+        <ButtonComponent clickFn={handleUpdatePost}>수정</ButtonComponent>
+        <ButtonComponent clickFn={() => navigate("/")}>
+          돌아가기
+        </ButtonComponent>
       </ButtonWrapper>
     </Container>
   );
@@ -81,22 +81,4 @@ const TitleInput = styled.input`
 
 const ButtonWrapper = styled.div`
   display: flex;
-`;
-
-const SaveButton = styled.button`
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 1.3rem;
-  border: 1xp solid gray;
-  font-weight: 600;
-  outline: none;
-  padding: 1.2rem;
-  min-width: 8rem;
-  margin: 1.5rem 1rem 0 0;
-  transition: all 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.buttonHover};
-  }
 `;

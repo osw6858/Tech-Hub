@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import useLogin from "../../hooks/authHooks/loginHook";
 import { Link } from "react-router-dom";
 import AuthInputComponent from "./AuthInputComponent";
+import CardButtonComponent from "../common/ButtonComponent";
 
 interface ModalState {
   setLoginModal: (isOpen: boolean) => void;
@@ -122,21 +123,8 @@ const ButtonGroup = styled.div`
   margin-top: 3rem;
 `;
 
-const LoginButton = styled.button`
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 1.3rem;
-  border: 1xp solid gray;
-  font-weight: 600;
-  outline: none;
-  padding: 1.2rem;
+const LoginButton = styled(CardButtonComponent)`
   width: 100%;
-  transition: all 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.buttonHover};
-  }
 `;
 
 const ErrorMsg = styled.span`

@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "react-query";
-import useQueryDebounce from "../useQueryDebounce";
+import useQueryDebounce from "./useQueryDebounce";
 import {
   collection,
   endAt,

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import { useAppSelector } from "../../hooks/dispatchHook";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import { useState } from "react";
 import { auth } from "../../firebase/firebaseConfig";
 import SelectorComponent from "../common/SelectorComponent";
+import ButtonComponent from "../common/ButtonComponent";
 
 const AddPost = () => {
   useCheckIsLogin();
@@ -42,8 +43,10 @@ const AddPost = () => {
         <MDEditor value={md} onChange={(e) => setMd(e || "")} height={865} />
       </div>
       <ButtonWrapper>
-        <SaveButton onClick={handleSave}>저장</SaveButton>
-        <ReturnButton onClick={() => navigate("/")}>돌아가기</ReturnButton>
+        <ButtonComponent clickFn={handleSave}>저장</ButtonComponent>
+        <ButtonComponent clickFn={() => navigate("/")}>
+          돌아가기
+        </ButtonComponent>
       </ButtonWrapper>
     </Container>
   );
@@ -81,33 +84,6 @@ const TitleInput = styled.input`
 
 const ButtonWrapper = styled.div`
   display: flex;
-`;
-
-const ButtonCSS = css`
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 1.3rem;
-  border: 1xp solid gray;
-  font-weight: 600;
-  outline: none;
-  padding: 1.2rem;
-  min-width: 8rem;
-  margin: 1.5rem 1rem 0 0;
-  transition: all 0.3s;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.buttonHover};
-  }
-`;
-
-const SaveButton = styled.button`
-  ${ButtonCSS}
-`;
-
-const ReturnButton = styled.button`
-  ${ButtonCSS}
 `;
 
 const ErrorText = styled.div`

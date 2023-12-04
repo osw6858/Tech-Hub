@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import CardButtonComponent from "./ButtonComponent";
 
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,8 +35,12 @@ const ModalComoponent = ({
           <p>{content}</p>
         </TextWrapper>
         <ButtonWrapper>
-          <ConfirmButton onClick={removePostAndComment}>확인</ConfirmButton>
-          <ConfirmButton onClick={() => setModal(false)}>취소</ConfirmButton>
+          <CardButtonComponent clickFn={removePostAndComment}>
+            확인
+          </CardButtonComponent>
+          <CardButtonComponent clickFn={() => setModal(false)}>
+            취소
+          </CardButtonComponent>
         </ButtonWrapper>
       </ContentWrapper>
     </Container>
@@ -82,24 +87,6 @@ const ButtonWrapper = styled.div`
   align-items: center;
   & > button {
     width: 8rem;
-  }
-`;
-
-const ConfirmButton = styled.button`
-  background-color: ${({ theme }) => theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 1.3rem;
-  border: 1xp solid gray;
-  font-weight: 600;
-  outline: none;
-  padding: 1.2rem;
-  min-width: 8rem;
-  margin: 1.5rem 1rem 0 0;
-  transition: all 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.buttonHover};
   }
 `;
 
