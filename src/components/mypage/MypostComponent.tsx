@@ -79,11 +79,7 @@ const Container = styled.div`
 `;
 
 const NoPost = styled.div`
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  margin-top: 5rem;
   & svg {
     fill: #b2d19d;
   }
