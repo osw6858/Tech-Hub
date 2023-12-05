@@ -6,6 +6,7 @@ import CategoryTegComponent from "./common/CategoryTegComponent";
 import { useState } from "react";
 import useCategory from "../hooks/postHooks/setCategoryHook";
 import SkeletonComponent from "./loading/SkeletonComponent";
+import { Result } from "antd";
 
 const IndexComponent = () => {
   const [category, setCategory] = useState<string>("All");
@@ -64,7 +65,11 @@ const IndexComponent = () => {
                     />
                   ))
                 ) : (
-                  <NoPost>작성한 포스트가 없습니다.</NoPost>
+                  <NoPost>
+                    <Result
+                      title={<ResulTitle>게시글이 없습니다.</ResulTitle>}
+                    />
+                  </NoPost>
                 )}
               </>
             )}
@@ -111,11 +116,22 @@ const Wrapper = styled.div`
   }
 `;
 
-const NoPost = styled.h3`
-  font-size: 3rem;
-  margin-top: 3rem;
+const NoPost = styled.div`
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  & svg {
+    fill: #b2d19d;
+  }
 `;
 
-//<Wrapper>
-//<SkeletonComponent iterateNum={4} />
-//</Wrapper>
+const ResulTitle = styled.span`
+  color: ${({ theme }) => theme.text};
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+`;

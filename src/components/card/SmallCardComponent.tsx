@@ -123,7 +123,7 @@ const StyledLink = styled(Link)`
 
 const Contents = styled.div`
   font-size: 1.4rem;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.cardContent};
   line-height: 1.3;
   font-weight: 200;
   display: -webkit-box;

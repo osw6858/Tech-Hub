@@ -34,7 +34,6 @@ const AddPost = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="제목을 입력하세요."
       ></TitleInput>
-      {/**TODO: 셀렉터 컴포넌트로 분리 */}
       <SelectorComponent category={category} setCategory={setCategory} />
       {addPostMutation.isError ? (
         <ErrorText>에러가 발생했습니다.</ErrorText>

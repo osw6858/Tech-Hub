@@ -10,11 +10,13 @@ import dayjs from "dayjs";
 import CommentsComponent from "../comments/CommentsComponent";
 import { useCallback, useState } from "react";
 import ModalComoponent from "../common/ModalComponent";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const PostContent = () => {
   const [modal, setModal] = useState(false);
 
   const theme = useAppSelector((state) => state.theme);
+  dayjs.extend(relativeTime);
   const navigate = useNavigate();
 
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
@@ -61,6 +63,14 @@ const PostContent = () => {
       {data && (
         <>
           <PostTitle>{data.title}</PostTitle>
+          <TopContentInfo>
+            {data.displayName ? (
+              <span>{data.displayName}</span>
+            ) : (
+              <span>익명</span>
+            )}
+            <span>{dayjs(data.createdAt).fromNow()}</span>
+          </TopContentInfo>
           <div data-color-mode={theme.dark ? "darkT" : "light"}>
             <MDEditor.Markdown
               source={data.content}
@@ -125,6 +135,20 @@ const PostTitle = styled.h2`
   margin: 2rem 0 3rem 0;
   @media ${(props) => props.theme.mobile} {
     font-size: 3.2rem;
+  }
+`;
+
+const TopContentInfo = styled.div`
+  margin-bottom: 1.5rem;
+  margin-left: 1rem;
+  & > span {
+    display: inline-block;
+    font-size: 1.4rem;
+    margin-right: 1.4rem;
+  }
+
+  & > span:nth-child(2) {
+    color: ${({ theme }) => theme.cardFontColor};
   }
 `;
 
