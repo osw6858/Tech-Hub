@@ -6,6 +6,7 @@ import useCheckIsLogin from "../../hooks/authHooks/checkIsLoginHook";
 import { useState } from "react";
 import CategoryTegComponent from "../common/CategoryTegComponent";
 import useCategory from "../../hooks/postHooks/setCategoryHook";
+import { Result } from "antd";
 
 const MypostComponent = ({ uid }: { uid: string }) => {
   useCheckIsLogin();
@@ -59,7 +60,9 @@ const MypostComponent = ({ uid }: { uid: string }) => {
                 />
               ))
             ) : (
-              <NoPost>작성한 포스트가 없습니다.</NoPost>
+              <NoPost>
+                <Result title={<ResulTitle>게시글이 없습니다.</ResulTitle>} />
+              </NoPost>
             )}
           </>
         )}
@@ -75,11 +78,22 @@ const Container = styled.div`
   place-items: center;
 `;
 
-const NoPost = styled.h3`
-  font-size: 3rem;
-  margin-top: 10rem;
+const NoPost = styled.div`
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  & svg {
+    fill: #b2d19d;
+  }
+`;
+
+const ResulTitle = styled.span`
+  color: ${({ theme }) => theme.text};
 
   @media ${(props) => props.theme.mobile} {
-    font-size: 2.4rem;
+    font-size: 1.4rem;
+    font-weight: 600;
   }
 `;

@@ -108,7 +108,7 @@ const Title = styled.p`
 
 const Contents = styled.div`
   font-size: 2rem;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.cardContent};
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 4;
