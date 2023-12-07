@@ -55,6 +55,7 @@ const Card = styled.div`
   margin-top: 2rem;
   height: 100%;
   max-width: 48rem;
+  min-height: 30rem;
   padding-bottom: 2rem;
 
   transition: transform 0.2s ease-in-out;

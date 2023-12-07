@@ -2,14 +2,10 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap');
-
 html{
   font-size: 10px;
 	font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
 }
-
-
 
  body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

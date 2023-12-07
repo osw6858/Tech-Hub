@@ -26,6 +26,7 @@ const useAddPostHook = (
   uid: string | undefined,
   category: string
 ) => {
+  console.log(category);
   const navigate = useNavigate();
   const now = dayjs();
 
@@ -75,7 +76,7 @@ const useAddPostHook = (
       displayName: auth.currentUser?.displayName,
       createdAt: now.valueOf(),
       comments: [],
-      category: category,
+      category: category === "" ? "none" : category,
     });
   };
   return { handleSave, addPostMutation };

@@ -53,21 +53,11 @@ const StyledLink = styled(Link)`
 `;
 
 const Card = styled.div`
-  min-width: 39vw;
-  min-height: 40rem;
+  min-width: 30vw;
   border: ${({ theme }) => theme.cardBorder};
   padding: 4rem;
   margin-top: 2rem;
   transition: transform 0.2s ease-in-out;
-
-  @media ${(props) => props.theme.tablet} {
-    min-width: 80vw;
-  }
-
-  @media ${(props) => props.theme.mobile} {
-    min-width: 80vw;
-    padding: 2rem;
-  }
 
   &:hover {
     transform: scale(1.01);
@@ -101,13 +91,19 @@ const Title = styled.p`
   font-weight: 800;
   margin: 2rem 0 2.5rem 0;
 
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   @media ${(props) => props.theme.mobile} {
     font-size: 2.4rem;
   }
 `;
 
 const Contents = styled.div`
-  font-size: 2rem;
+  font-size: 1.7rem;
   color: ${({ theme }) => theme.cardContent};
   line-height: 1.3;
   display: -webkit-box;

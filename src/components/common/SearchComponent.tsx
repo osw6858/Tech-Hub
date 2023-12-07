@@ -40,15 +40,16 @@ const SearchComponent = () => {
         {data?.pages.map((page) => {
           return page.searchedPost.map((post) => {
             return (
-              <LargeCardComponent
-                key={post.docID}
-                content={post.postData.content}
-                name={post.postData.displayName}
-                title={post.postData.title}
-                docId={post.docID}
-                createdAt={post.postData.createdAt}
-                category={post.postData.category}
-              />
+              <CardWrapper key={post.docID}>
+                <LargeCardComponent
+                  content={post.postData.content}
+                  name={post.postData.displayName}
+                  title={post.postData.title}
+                  docId={post.docID}
+                  createdAt={post.postData.createdAt}
+                  category={post.postData.category}
+                />
+              </CardWrapper>
             );
           });
         })}
@@ -107,4 +108,8 @@ const StyledSvg = styled.svg`
     min-width: 2.6rem;
     min-height: 2.6rem;
   }
+`;
+
+const CardWrapper = styled.div`
+  max-width: 70rem;
 `;
