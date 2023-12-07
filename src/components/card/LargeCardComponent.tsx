@@ -62,6 +62,10 @@ const Card = styled.div`
   &:hover {
     transform: scale(1.01);
   }
+
+  @media ${(props) => props.theme.mobile} {
+    padding: 4rem 2rem 4rem 2rem;
+  }
 `;
 
 const Thumbnail = styled.img`
@@ -87,7 +91,7 @@ const Thumbnail = styled.img`
 `;
 
 const Title = styled.p`
-  font-size: 2.8rem;
+  font-size: 2.3rem;
   font-weight: 800;
   margin: 2rem 0 2.5rem 0;
 
@@ -98,12 +102,12 @@ const Title = styled.p`
   text-overflow: ellipsis;
 
   @media ${(props) => props.theme.mobile} {
-    font-size: 2.4rem;
+    font-size: 1.9rem;
   }
 `;
 
 const Contents = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   color: ${({ theme }) => theme.cardContent};
   line-height: 1.3;
   display: -webkit-box;
@@ -113,7 +117,7 @@ const Contents = styled.div`
   text-overflow: ellipsis;
 
   @media ${(props) => props.theme.mobile} {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
 `;
 
