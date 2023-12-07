@@ -274,6 +274,7 @@ const LoginButton = styled.button`
   cursor: pointer;
   transition: all 0.2s;
   margin: 0 0 0 1rem;
+  border: none;
 
   &:hover {
     background-color: ${({ theme }) => theme.buttonHover};

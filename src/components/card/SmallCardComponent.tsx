@@ -38,7 +38,7 @@ PostState) => {
           </UserName>
         ) : (
           <UserName>
-            <span>by</span> 익명
+            <span>by </span> 익명
           </UserName>
         )}
       </Card>
@@ -60,7 +60,7 @@ const Card = styled.div`
   transition: transform 0.2s ease-in-out;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
 
   @media ${(props) => props.theme.mobile} {
@@ -93,8 +93,14 @@ const Thumbnail = styled.img`
 
 const Title = styled.p`
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 1rem;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const UserName = styled.p`
@@ -102,9 +108,10 @@ const UserName = styled.p`
   color: ${({ theme }) => theme.text};
   padding: 0 2rem 0 2rem;
   margin-top: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
 
   & > span {
+    font-weight: 500;
     color: ${({ theme }) => theme.cardFontColor};
   }
 `;
