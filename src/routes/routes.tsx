@@ -7,6 +7,7 @@ import SearchComponent from "../components/common/SearchComponent";
 import SingUpComponent from "../components/auth/SingUpComponent";
 import MyPageComponent from "../components/mypage/MypageComponent";
 import ScrollToTop from "./scrollTop";
+import ResetPasswordComponent from "../components/auth/ResetPasswordComponent";
 
 const RoutesComponent = () => {
   return (
@@ -20,6 +21,7 @@ const RoutesComponent = () => {
         <Route path="/search" element={<SearchComponent />} />
         <Route path="/singup" element={<SingUpComponent />} />
         <Route path="/mypage" element={<MyPageComponent />} />
+        <Route path="/reset" element={<ResetPasswordComponent />} />
       </Routes>
     </>
   );

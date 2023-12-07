@@ -28,6 +28,7 @@ const SingUpComponent = () => {
 
   return (
     <>
+      {/** TODO: 닉네임 설정 컴포넌트로 분리 */}
       {isSingUp ? (
         <SingUpContainer onSubmit={setUserNickName}>
           <p>Tech HUB 가입을 축하합니다!</p>

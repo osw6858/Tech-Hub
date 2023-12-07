@@ -54,9 +54,21 @@ const LoginFormComponent = ({ setLoginModal }: ModalState) => {
           </InputGroup>
           <ButtonGroup>
             <LoginButton type="submit">로그인</LoginButton>
-            <StyledLink to={"/singup"} onClick={() => setLoginModal(false)}>
-              <SingUp>아직 회원이 아니신가요?</SingUp>
-            </StyledLink>
+            {errorMsg === "비밀번호가 일치하지 않습니다." ? (
+              <StyledLink
+                to={"/reset"}
+                state={{ userEmail: email }}
+                onClick={() => setLoginModal(false)}
+              >
+                <FindPassword onClick={() => setLoginModal(false)}>
+                  비밀번호를 잊으셨나요?
+                </FindPassword>
+              </StyledLink>
+            ) : (
+              <StyledLink to={"/singup"} onClick={() => setLoginModal(false)}>
+                <SingUp>아직 회원이 아니신가요?</SingUp>
+              </StyledLink>
+            )}
           </ButtonGroup>
         </LoginForm>
       </ContentWrapper>
@@ -134,9 +146,16 @@ const ErrorMsg = styled.span`
 `;
 
 const SingUp = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-top: 2rem;
   color: ${({ theme }) => theme.text};
+`;
+
+const FindPassword = styled.p`
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.text};
+  margin-top: 2rem;
+  cursor: pointer;
 `;
 
 const StyledLink = styled(Link)`

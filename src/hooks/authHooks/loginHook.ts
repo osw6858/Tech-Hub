@@ -26,6 +26,7 @@ const useLogin = ({
   passwordRef,
 }: LoginState) => {
   const navigate = useNavigate();
+
   const LoginMutation = useMutation(
     (loginInput: { email: string; password: string }) => {
       return signInWithEmailAndPassword(
@@ -54,6 +55,10 @@ const useLogin = ({
               break;
             case "auth/wrong-password":
               setErrorMsg("비밀번호가 일치하지 않습니다.");
+              passwordRef.current?.focus();
+              break;
+            case "auth/too-many-requests":
+              setErrorMsg("로그인 시도 횟수 초과 나중에 다시 시도해 주세요.");
               passwordRef.current?.focus();
               break;
           }
