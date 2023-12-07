@@ -140,7 +140,6 @@ const PostTitle = styled.h2`
 
 const TopContentInfo = styled.div`
   margin-bottom: 1.5rem;
-  margin-left: 1rem;
   & > span {
     display: inline-block;
     font-size: 1.4rem;
